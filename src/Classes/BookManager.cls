@@ -77,10 +77,14 @@ End Function
 Public Sub PrintWorkbookNames()
 
     Dim k As Variant
-    
+    Logger.DebugMsg CLASS_NAME & " ================================================================================="
+    Logger.DebugMsg CLASS_NAME & "  BookManager“à‚É“o˜^‚³‚ê‚½ƒuƒbƒN"
+    Logger.DebugMsg CLASS_NAME & " ---------------------------------------------------------------------------------"
     For Each k In wbDict.keys
         Debug.Print k & ": " & wbDict(k).Name
+        Logger.DebugMsg CLASS_NAME & " " & k & " : " & wbDict(k).Name
     Next k
+    Logger.DebugMsg CLASS_NAME & " ================================================================================="
     
 End Sub
 

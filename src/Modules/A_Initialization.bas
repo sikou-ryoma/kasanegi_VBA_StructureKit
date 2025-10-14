@@ -22,12 +22,12 @@ Public Sub MainInit()
 
 
 
-    'パス管理クラスにパスを追加する
-    '---( Paths.SetPath "[key]", [登録したいフォルダパス] )
+    '---パス管理クラスにパスを追加する
+    '( Paths.SetPath "[key]", "[登録したいフォルダパス]" )
     Paths.SetPath "documents", Environ("USERPROFILE") & "\Documents"
     
-    '読み込みや書き込みを行う作業フォルダの設定
-    '---( Paths.SetCurrentPath [指定したいフォルダパス] )
+    '---読み込みや書き込みを行う作業フォルダの設定
+    '( Paths.SetCurrentPath "[指定したいフォルダパス]" )
     Paths.SetCurrentPath Paths.TestPath
 
 

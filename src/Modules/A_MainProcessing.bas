@@ -20,7 +20,7 @@ Public Sub RunProcessing()
     
     
     
-    Call GetValue("セルからデータを取得しますか？") '---サンプル用プロシージャ
+    MsgBox "取得した値 : " & GetValue(sc.GetWs("targetSheet")), vbInformation, MACRO_NAME  '---サンプル用プロシージャ
     
     
     
@@ -33,20 +33,22 @@ End Sub
 
 
 '---サンプル用プロシージャ
-Private Sub GetValue(ByVal message As String)
+Private Function GetValue(ByRef ws As SheetManager) As Variant
+    
+    Const PROC_NAME As String = "[GetValue]"
     
     Dim rc As Long
     
-    rc = MsgBox(message, vbYesNo + vbQuestion, MACRO_NAME)
+    rc = MsgBox("セルからデータを取得しますか？", vbYesNo + vbQuestion, MACRO_NAME)
     If rc = vbYes Then
-        With sc.GetWs("targetSheet")
+        With ws
             Set .RNG = .sheet.Cells(1, A__)
-            MsgBox "取得した値 : " & .RNG.Value, vbInformation, MACRO_NAME
-            Logger.DebugMsg MACRO_NAME & " 取得した値 : " & .RNG.Value
+            GetValue = .RNG.Value
+            Logger.DebugMsg PROC_NAME & " 取得した値 : " & .RNG.Value
         End With
     Else
         '---何もしない
     End If
 
-End Sub
+End Function
 

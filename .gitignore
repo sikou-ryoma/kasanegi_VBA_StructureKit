@@ -5,7 +5,7 @@
  *.xlsb
  *.tmp
  ~$*.xls*
- *.xls*
+ *.xlsm
 # output/
 # test/
 # workbook/
