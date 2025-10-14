@@ -2,16 +2,16 @@
 # 必要な場合はコメントアウトを外して使用してください
 
 # VBA 開発用
-# *.xlsb
-# *.tmp
-# ~$*.xls*
+ *.xlsb
+ *.tmp
+ ~$*.xls*
 # output/
 # test/
 # workbook/
 
 # build成果物
 # build/
-# *.zip
+ *.zip
 
 # 環境依存ファイル
 *.log
