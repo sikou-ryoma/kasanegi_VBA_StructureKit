@@ -5,6 +5,7 @@
  *.xlsb
  *.tmp
  ~$*.xls*
+ *.xls*
 # output/
 # test/
 # workbook/
