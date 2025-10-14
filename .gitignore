@@ -2,20 +2,20 @@
 # 必要な場合はコメントアウトを外して使用してください
 
 # VBA 開発用
- *.xlsb
- *.tmp
- ~$*.xls*
- *.xlsm
-# output/
-# test/
-# workbook/
+*.xlsb
+*.tmp
+~$*.xls*
+*.xlsm
+output/
+test/
+workbook/
 
 # build成果物
-# build/
- *.zip
+build/
+*.zip
 
 # 環境依存ファイル
 *.log
 log/
-# config/
-# *.ini
+config/
+*.ini
