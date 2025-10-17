@@ -18,10 +18,11 @@ Option Explicit
 Private Const CLASS_NAME As String = "[FileOjt]"
 
 Private pFileNm As Variant '---select file path
+Private pMultipleFiles As Variant '---select multiple files path
 Private pFolderPath As Variant '---select folder path
 
 
-'---取得したファイルパスを保持するプロパティ
+'---取得したファイルパスの設定・取得
 Public Property Let FileNm(ByVal fn As Variant)
     pFileNm = fn
 End Property
@@ -31,7 +32,21 @@ Public Property Get FileNm() As Variant
 End Property
 
 
-'---取得したフォルダパスを保持するプロパティ
+'---取得した複数のファイルパスの設定・取得・解放
+Public Property Let MultipleFiles(ByVal fns As Variant)
+    pMultipleFiles = fns
+End Property
+
+Public Property Get MultipleFiles() As Variant
+    MultipleFiles = pMultipleFiles
+End Property
+
+Public Sub MultipleFiles_Clear()
+    pMultipleFiles = Empty
+End Sub
+
+
+'---取得したフォルダパスの設定・取得
 Public Property Let folderPath(ByVal fp As Variant)
     pFolderPath = fp
 End Property
@@ -44,7 +59,7 @@ End Property
 '---この関数は選択したファイルのフルパスを返してそのファイルを開き、キャンセル時はFalseを返す
 '---キャンセル時に付いては呼び出し元で分岐を管理する必要がある
 Public Function OpFile() As Variant
-
+    
     Dim fileName As Variant
     MsgBox "ブックを選択してください。", vbInformation, "OpenFile"
     fileName = Application.GetOpenFilename(FileFilter:="Excelファイル,*.xlsx,Excel2003以前,*.xls,Excelマクロブック,*.xlsm")
@@ -56,6 +71,28 @@ Public Function OpFile() As Variant
         Workbooks.Open fileName
     End If
     
+End Function
+
+
+Public Function OpMultipleFiles() As Variant
+
+'---OpFileの複数選択版
+'---配列を返すので呼び出し元で管理する必要がある
+    Dim fileNames As Variant
+    Dim i As Long
+    MsgBox "ブックを選択してください。", vbInformation, "OpenMultipleFiles"
+    fileNames = Application.GetOpenFilename( _
+        FileFilter:="Excelファイル,*.xlsx,Excel2003以前,*.xls,Excelマクロブック,*.xlsm", MultiSelect:=True)
+    OpMultipleFiles = fileNames
+    If VarType(fileNames) = vbBoolean Then
+        MsgBox "キャンセルが押されたため処理を中断します。", vbExclamation, "OpenMultipleFiles"
+        Exit Function
+    Else
+        For i = LBound(fileNames) To UBound(fileNames)
+            Workbooks.Open fileNames(i)
+        Next i
+    End If
+
 End Function
 
 

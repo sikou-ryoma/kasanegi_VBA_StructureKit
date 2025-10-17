@@ -20,7 +20,7 @@ Public Sub RunProcessing()
     
     
     
-    MsgBox "取得した値 : " & GetValue(sc.GetWs("targetSheet")), vbInformation, MACRO_NAME  '---サンプル用プロシージャ
+    MsgBox "取得した値 : " & GetValue(sc.GetWs("selectSheet_1")), vbInformation, MACRO_NAME  '---サンプル用プロシージャ
     
     
     
