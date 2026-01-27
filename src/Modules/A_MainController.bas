@@ -64,6 +64,8 @@ ErrHandler:
     Logger.ErrorMsg MODULE_NAME & " エラー発生 : " & Err.Description
     Logger.WarnMsg MODULE_NAME & " 処理を中断しました"
     MsgBox "エラーが発生しました。" & vbCrLf & "エラーメッセージ : " & Err.Description, vbExclamation, MACRO_NAME
+    Unload WaitMsg
+    Call A_Postprocessing.RemoveAndCloseByWorkbooks
     MsgBox "処理を中断します。", vbExclamation, MACRO_NAME
     
 End Sub

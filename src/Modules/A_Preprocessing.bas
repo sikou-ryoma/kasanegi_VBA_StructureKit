@@ -24,8 +24,10 @@ Public Function RunProcessing() As Boolean
     bm.AddWorkbook "wbMacro", ThisWorkbook.FullName
     sc.AddWs bm.GetWb("wbMacro").Sheets("macro"), "wsMacro"
     
+    
     '---FO.OpFileでファイル選択ダイアログを開き取得したファイルパスをFO.FileNmに保持
     '---ファイル選択ダイアログはキャンセルでFalseを返すので中断処理を挟む
+    '------------------------------------------------------------------------
 '    FO.FileNm = FO.OpFile
 '    If FO.FileNm = False Then
 '        RunProcessing = False   '---ファイル選択ダイアログのキャンセル時、関数は必ずFalseを返しておく
@@ -41,6 +43,7 @@ Public Function RunProcessing() As Boolean
     
     '---FO.OpMultipleFilesで選択ダイアログを開き取得した複数のファイルパスをFO.MultipleFilesに配列で保持
     '---ファイル選択ダイアログはキャンセルでFalseを返すので中断処理を挟む
+    '------------------------------------------------------------------------
     FO.MultipleFiles = FO.OpMultipleFiles
     If VarType(FO.MultipleFiles) = vbBoolean Then
         RunProcessing = False   '---ファイル選択ダイアログのキャンセル時、関数は必ずFalseを返しておく
@@ -49,7 +52,7 @@ Public Function RunProcessing() As Boolean
     End If
     
     '---ファイル選択ダイアログより取得したファイルパスより全ブックを一括登録
-    '---FO.MultipleFilesの配列インデックスは1ベース
+    '---FO.MultipleFilesの配列インデックスは1ベースのため注意
     Dim i As Long
     For i = LBound(FO.MultipleFiles) To UBound(FO.MultipleFiles)
         bm.AddWorkbook "selectBook_" & i, FO.MultipleFiles(i)

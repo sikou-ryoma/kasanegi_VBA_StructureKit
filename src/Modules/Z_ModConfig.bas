@@ -10,7 +10,7 @@ Option Explicit
 
 ' マクロ名、バージョン情報の定数宣言
 '------------------------------------------------------------------------
-Public Const VERSION As String = "alpha"
+Public Const VERSION As String = "v0.9.0"
 Public Const MACRO_NAME As String = "Template_Macro"
 
 
