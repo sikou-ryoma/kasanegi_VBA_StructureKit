@@ -11,6 +11,7 @@ test/
 workbook/
 
 # build成果物
+archive/
 build/
 *.zip
 

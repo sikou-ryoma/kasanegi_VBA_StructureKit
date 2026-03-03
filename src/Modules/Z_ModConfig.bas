@@ -12,6 +12,7 @@ Option Explicit
 '------------------------------------------------------------------------
 Public Const VERSION As String = "v0.9.0"
 Public Const MACRO_NAME As String = "Template_Macro"
+Public Const KANRI_PASS As String = "0000"  '---IptPass用のパスワード
 
 
 
