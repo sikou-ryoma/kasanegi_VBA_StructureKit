@@ -28,7 +28,7 @@ Public Sub MainInit()
     
     '---読み込みや書き込みを行う作業フォルダの設定
     '( Paths.SetCurrentPath "[指定したいフォルダパス]" )
-    'Paths.SetCurrentPath Paths.TestPath
+    Paths.SetCurrentPath Paths.TestPath
 
 
 

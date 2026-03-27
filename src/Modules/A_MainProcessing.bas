@@ -43,8 +43,8 @@ Private Function GetValue(ByRef ws As SheetManager) As Variant
     If rc = vbYes Then
         With ws
             Set .RNG = .sheet.Cells(1, A__)
-            GetValue = .RNG.Value
-            Logger.DebugMsg PROC_NAME & " Žæ“¾‚µ‚½’l : " & .RNG.Value
+            GetValue = .RNG.value
+            Logger.DebugMsg PROC_NAME & " Žæ“¾‚µ‚½’l : " & .RNG.value
         End With
     Else
         '---‰½‚à‚µ‚È‚¢

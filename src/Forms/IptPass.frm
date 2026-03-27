@@ -26,7 +26,7 @@ Private Sub Cancel_Btn_Click()
 End Sub
 
 Private Sub OK_Btn_Click()
-    Me.Tag = Me.Pass_txt.Value
+    Me.Tag = Me.Pass_txt.value
     Me.Hide
 End Sub
 

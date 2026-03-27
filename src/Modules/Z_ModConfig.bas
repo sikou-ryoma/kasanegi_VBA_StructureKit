@@ -12,8 +12,7 @@ Option Explicit
 '------------------------------------------------------------------------
 Public Const VERSION As String = "v0.9.0"
 Public Const MACRO_NAME As String = "Template_Macro"
-Public Const KANRI_PASS As String = "0000"  '---IptPass用のパスワード
-
+Public Const KANRI_PASS As String = "9999"  '---IptPass用のパスワード
 
 
 ' パブリックレベルのクラス宣言
@@ -23,7 +22,6 @@ Public bm As BookManager
 Public sc As SheetCollection
 Public du As DateUtility
 Public Paths As PathConfig
-
 
 
 ' INI読み取り用API宣言
