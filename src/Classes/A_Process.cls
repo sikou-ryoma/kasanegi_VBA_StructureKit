@@ -17,6 +17,8 @@ Option Explicit
 
 Implements IProcess
 
+Private Const CLASS_NAME As String = "[A_Process]"
+
 Private init As A_Initializer
 Private pre As A_PreProcessor
 Private main As A_MainLogic
@@ -36,12 +38,18 @@ Private Sub IProcess_Initialize()
 End Sub
 
 
-Private Function IProcess_Preprocess() As Boolean
+Private Sub IProcess_Preprocess()
+    pre.ExecuteFlow
+End Sub
+
+
+Private Function IProcess_CanExecute() As Boolean
     
-    IProcess_Preprocess = True
+    IProcess_CanExecute = True
     
-    If pre.ExecuteFlow = False Then
-        IProcess_Preprocess = False
+    If context.IsCanceled Then
+        IProcess_CanExecute = False
+        Logger.DebugMsg CLASS_NAME & " ƒLƒƒƒ“ƒZƒ‹‚ª‰Ÿ‚³‚ê‚½ˆ×ˆ—‚ğ’†’f‚µ‚Ü‚·B"
     End If
     
 End Function

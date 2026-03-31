@@ -25,7 +25,7 @@ Public Sub ExecuteFlow()
     ClassInit
 
     '========================================================================
-    '追加で設定がある場合はここに記述
+    'オブジェクト取得や設定はここに記述
 
 
     '---パス管理クラスにパスを追加する
@@ -35,6 +35,11 @@ Public Sub ExecuteFlow()
     '---読み込みや書き込みを行う作業フォルダの設定
     '( Paths.SetCurrentPath "[指定したいフォルダパス]" )
     Paths.SetCurrentPath Paths.TestPath
+
+
+    bm.AddWorkbook "wbMacro", ThisWorkbook.FullName
+    sc.AddWs bm.GetWb("wbMacro").Sheets("macro"), "wsMacro"
+
 
 
     '========================================================================
@@ -55,7 +60,8 @@ Private Sub ClassInit()
     Set bm = New BookManager
     Set sc = New SheetCollection
     Set du = New DateUtility
-    Set ctx = New ProcessContext
+    Set ctx = New ProcessStateManager
+    Set context = New ProcessContext
     
     '---PathConfigの設定
     Set Paths = New PathConfig

@@ -21,6 +21,6 @@ Public bm As BookManager
 Public sc As SheetCollection
 Public du As DateUtility
 Public Paths As PathConfig
-Public ctx As ProcessContext
-
+Public ctx As ProcessStateManager
+Public context As ProcessContext
 

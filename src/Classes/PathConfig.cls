@@ -7,7 +7,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-
 '------------------------------------------------------------------------
 ' ---PathConfig---
 ' プロジェクトフォルダ内の主要フォルダパスやそのほか複数のパス管理を行うクラスモジュールです。

@@ -14,12 +14,15 @@ Private Const CLASS_NAME As String = "[ApplicationService]"
 
 Public Sub ExecuteApp(ByVal proc As IProcess)
 
-    On Error GoTo ErrHandler
+    'On Error GoTo ErrHandler
     Application.ScreenUpdating = False
 
     proc.Initialize
     
-    If proc.Preprocess = False Then Exit Sub
+    proc.Preprocess
+    
+    If proc.CanExecute = False Then Exit Sub
+    
     WaitMsgShow
     
     proc.MainProcess

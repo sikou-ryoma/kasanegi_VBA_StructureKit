@@ -18,28 +18,24 @@ Option Explicit
 Private Const CLASS_NAME As String = "[Preprocessor]"
 
 
-Public Function ExecuteFlow() As Boolean
+Public Sub ExecuteFlow()
 
     Logger.Info CLASS_NAME & " 処理の開始"
-    ExecuteFlow = True
+    context.IsCanceled = False
 
     '========================================================================
-    'ブック及びシートの管理クラスへの登録などの事前処理を記述してください。
+    '事前処理などを記述してください。
     
     
-    
-    bm.AddWorkbook "wbMacro", ThisWorkbook.FullName
-    sc.AddWs bm.GetWb("wbMacro").Sheets("macro"), "wsMacro"
-    
+        
     
     '---FO.OpFileでファイル選択ダイアログを開き取得したファイルパスをFO.FileNmに保持
     '---ファイル選択ダイアログはキャンセルでFalseを返すので中断処理を挟む
     '------------------------------------------------------------------------
 '    FO.FileNm = FO.OpFile
 '    If FO.FileNm = False Then
-'        ExecuteFlow = False   '---ファイル選択ダイアログのキャンセル時、関数は必ずFalseを返しておく
-'        Logger.Info CLASS_NAME & " キャンセルのため処理を中断"
-'        Exit Function
+'        context.IsCanceled = True
+'        Exit Sub
 '    End If
     
     '---ファイル選択ダイアログより取得したファイルパスよりブックを登録
@@ -48,14 +44,14 @@ Public Function ExecuteFlow() As Boolean
     
     
     
+    
     '---FO.OpMultipleFilesで選択ダイアログを開き取得した複数のファイルパスをFO.MultipleFilesに配列で保持
     '---ファイル選択ダイアログはキャンセルでFalseを返すので中断処理を挟む
     '------------------------------------------------------------------------
     FO.MultipleFiles = FO.OpMultipleFiles
     If VarType(FO.MultipleFiles) = vbBoolean Then
-        ExecuteFlow = False   '---ファイル選択ダイアログのキャンセル時、関数は必ずFalseを返しておく
-        Logger.Info CLASS_NAME & " キャンセルのため処理を中断"
-        Exit Function
+        context.IsCanceled = True
+        Exit Sub
     End If
     
     '---ファイル選択ダイアログより取得したファイルパスより全ブックを一括登録
@@ -66,11 +62,11 @@ Public Function ExecuteFlow() As Boolean
         sc.AddWs bm.GetWb("selectBook_" & i).Sheets(1), "selectSheet_" & i
     Next i
     
-    
+
     '========================================================================
     
     Logger.Info CLASS_NAME & " 処理の終了"
 
-End Function
+End Sub
 
 

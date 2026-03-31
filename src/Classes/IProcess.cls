@@ -16,8 +16,11 @@ Option Explicit
 Public Sub Initialize()
 End Sub
 
-Public Function Preprocess() As Boolean
-    Preprocess = True
+Public Sub Preprocess()
+End Sub
+
+Public Function CanExecute() As Boolean
+    CanExecute = True
 End Function
 
 Public Sub MainProcess()
