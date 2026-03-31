@@ -1,23 +1,30 @@
-Attribute VB_Name = "A_Postprocessing"
-
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "A_PostProcessor"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
 '------------------------------------------------------------------------
-' ---Postprocessing---
-' 後処理用モジュールです。
+' ---PostProcessor---
+' 後処理用クラスです。
 ' オブジェクトの解放やブックの終了処理などを行います。
 ' 必要な追加処理がある場合は下記の枠内に記入してください。
 '
-' また、このモジュールの処理で管理クラスに登録されたブックが全て閉じます。
-' この時に閉じたくないブックがある場合は下記 "RemoveAndCloseByWorkbooks" の枠内より事前にクラスからオブジェクトの解放を行って下さい。
+' また、このクラスモジュールの処理で管理クラスに登録されたブックは全て閉じます。
+' この時に閉じたくないブックがある場合は下記 "RemoveAndCloseByWorkbooks" の枠内より事前に管理クラスからオブジェクトの解放を行うことで回避できます。
 '------------------------------------------------------------------------
 Option Explicit
 
 
-Private Const MODULE_NAME As String = "[A_Postprocessing]"
+Private Const CLASS_NAME As String = "[PostProcessor]"
 
 
-Public Sub RunProcessing()
+Public Sub ExecuteFlow()
 
-    Logger.Info MODULE_NAME & " 処理の開始"
+    Logger.Info CLASS_NAME & " 処理の開始"
 
     '========================================================================
     'ブックの保存など追加で処理がある場合はここに記述
@@ -28,7 +35,7 @@ Public Sub RunProcessing()
     
     Call RemoveAndCloseByWorkbooks
 
-    Logger.Info MODULE_NAME & " 処理の終了"
+    Logger.Info CLASS_NAME & " 処理の終了"
 
 End Sub
 
@@ -40,14 +47,10 @@ Public Sub RemoveAndCloseByWorkbooks()
     sc.Clear    '---SheetCollectionのシートを全て解放
     
     '========================================================================
-    '終了時また中断時に閉じないブックはあらかじめBookManagerからオブジェクトを解放しておく
+    '終了時に閉じないブックはあらかじめBookManagerからオブジェクトを解放しておく
     
     
-    
-    
-    If Not bm.GetWb("wbMacro") Is Nothing Then bm.Remove "wbMacro"
-    
-    
+    ExcludeBook "wbMacro"
     
     
     '========================================================================
@@ -56,3 +59,8 @@ Public Sub RemoveAndCloseByWorkbooks()
     
 End Sub
 
+
+'---管理クラスに登録されたブックをキー指定で解放する処理
+Private Sub ExcludeBook(ByVal wbName As String)
+    If Not bm.GetWb(wbName) Is Nothing Then bm.Remove wbName
+End Sub

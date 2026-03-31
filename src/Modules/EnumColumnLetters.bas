@@ -1,14 +1,13 @@
-Attribute VB_Name = "Z_ColumnNumber"
-
+Attribute VB_Name = "EnumColumnLetters"
 '-----------------------------------------------------
 ' ---ColumnNumber---
-' 列番号を直感的に扱うための列挙体
-' 「.Cells(1, A__)」など数値の代わりに使用する
+' 列番号を直感的に扱うための列挙体です。
+' 「.Cells(1, A__)」など数値の代わりに使用できます。
 '-----------------------------------------------------
 Option Explicit
 
 
-Enum columnNumber
+Enum ColumnLetters
     A__ = 1
     B__
     C__

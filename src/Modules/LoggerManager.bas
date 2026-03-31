@@ -1,16 +1,30 @@
-Attribute VB_Name = "Z_LogInit"
-
+Attribute VB_Name = "LoggerManager"
 '----------------------------------------------------------------------
-' ---LogInit---
-' clsLoggerのイニシャライズ用モジュール
-' ロガーの設定をiniファイルから読み込む
+' ---LoggerManager---
+' clsLoggerのイニシャライズ用モジュールです。
+' ロガーの設定をiniファイルから読み込む為のAPI宣言もここで行います。
 '----------------------------------------------------------------------
 Option Explicit
 
 
 Public Logger As clsLogger
 
-Public Sub InitializeLogger(ByVal folderPath As String)
+
+' INI読み取り用API宣言
+'------------------------------------------------------------------------
+Private Declare PtrSafe Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" _
+    (ByVal lpAppName As String, ByVal lpKeyName As String, ByVal lpDefault As String, _
+    ByVal lpReturnedString As String, ByVal nSize As Long, ByVal lpFileName As String) As Long
+    
+Public Function ReadIniValue(ByVal section As String, ByVal key As String, ByVal defaultVal As String, ByVal iniPath As String) As String
+    Dim buffer As String * 255
+    Dim ret As Long
+    ret = GetPrivateProfileString(section, key, defaultVal, buffer, Len(buffer), iniPath)
+    ReadIniValue = Trim(Left(buffer, ret))
+End Function
+
+
+Public Sub Initialize(ByVal folderPath As String)
 
     Const PROC_NAME As String = "[InitializeLogger]"
 
@@ -45,4 +59,3 @@ Public Sub InitializeLogger(ByVal folderPath As String)
 
     End With
 End Sub
-

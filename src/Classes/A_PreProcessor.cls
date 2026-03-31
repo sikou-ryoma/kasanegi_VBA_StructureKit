@@ -1,20 +1,27 @@
-Attribute VB_Name = "A_Preprocessing"
-
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "A_PreProcessor"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
 '------------------------------------------------------------------------
-' ---Preprocessing---
-' 前処理用モジュールです。
+' ---Preprocessor---
+' 前処理用クラスです。
 ' 処理を行う際に必要なブックやシートの管理クラスへの事前登録を行います。
 '------------------------------------------------------------------------
 Option Explicit
 
 
-Private Const MODULE_NAME As String = "[A_Preprocessing]"
+Private Const CLASS_NAME As String = "[Preprocessor]"
 
 
-Public Function RunProcessing() As Boolean
+Public Function ExecuteFlow() As Boolean
 
-    Logger.Info MODULE_NAME & " 処理の開始"
-    RunProcessing = True
+    Logger.Info CLASS_NAME & " 処理の開始"
+    ExecuteFlow = True
 
     '========================================================================
     'ブック及びシートの管理クラスへの登録などの事前処理を記述してください。
@@ -30,8 +37,8 @@ Public Function RunProcessing() As Boolean
     '------------------------------------------------------------------------
 '    FO.FileNm = FO.OpFile
 '    If FO.FileNm = False Then
-'        RunProcessing = False   '---ファイル選択ダイアログのキャンセル時、関数は必ずFalseを返しておく
-'        Logger.Info MODULE_NAME & " キャンセルのため処理を中断"
+'        ExecuteFlow = False   '---ファイル選択ダイアログのキャンセル時、関数は必ずFalseを返しておく
+'        Logger.Info CLASS_NAME & " キャンセルのため処理を中断"
 '        Exit Function
 '    End If
     
@@ -46,8 +53,8 @@ Public Function RunProcessing() As Boolean
     '------------------------------------------------------------------------
     FO.MultipleFiles = FO.OpMultipleFiles
     If VarType(FO.MultipleFiles) = vbBoolean Then
-        RunProcessing = False   '---ファイル選択ダイアログのキャンセル時、関数は必ずFalseを返しておく
-        Logger.Info MODULE_NAME & " キャンセルのため処理を中断"
+        ExecuteFlow = False   '---ファイル選択ダイアログのキャンセル時、関数は必ずFalseを返しておく
+        Logger.Info CLASS_NAME & " キャンセルのため処理を中断"
         Exit Function
     End If
     
@@ -60,10 +67,10 @@ Public Function RunProcessing() As Boolean
     Next i
     
     
-    
     '========================================================================
     
-    Logger.Info MODULE_NAME & " 処理の終了"
+    Logger.Info CLASS_NAME & " 処理の終了"
 
 End Function
+
 

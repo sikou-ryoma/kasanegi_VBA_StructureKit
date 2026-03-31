@@ -59,7 +59,7 @@ End Property
 
 '---固定パスのイニシャライズ
 '---Initの呼び出しは必ず行う
-Public Sub Init(ByVal basePath As String)
+Public Sub init(ByVal basePath As String)
     
     mProjectRoot = basePath
     mReportsPath = mProjectRoot & "\output\reports"
