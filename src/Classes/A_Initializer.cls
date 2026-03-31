@@ -23,6 +23,8 @@ Private Const CLASS_NAME As String = "[Initializer]"
 Public Sub ExecuteFlow()
 
     ClassInit
+    
+    context.IsCanceled = False
 
     '========================================================================
     'オブジェクト取得や設定はここに記述
@@ -37,9 +39,42 @@ Public Sub ExecuteFlow()
     Paths.SetCurrentPath Paths.TestPath
 
 
+
+
     bm.AddWorkbook "wbMacro", ThisWorkbook.FullName
     sc.AddWs bm.GetWb("wbMacro").Sheets("macro"), "wsMacro"
 
+
+    '---FO.OpFileでファイル選択ダイアログを開き取得したファイルパスをFO.FileNmに保持
+    '------------------------------------------------------------------------
+'    FO.FileNm = FO.OpFile
+'    If FO.FileNm = False Then
+'        context.IsCanceled = True
+'        Exit Sub
+'    End If
+    
+    '---ファイル選択ダイアログより取得したファイルパスよりブックを登録
+'    bm.AddWorkbook "selectBook", FO.FileNm
+'    sc.AddWs bm.GetWb("selectBook").Sheets(1), "selectSheet"
+    
+    
+    
+    
+    '---FO.OpMultipleFilesで選択ダイアログを開き取得した複数のファイルパスをFO.MultipleFilesに配列で保持
+    '------------------------------------------------------------------------
+    FO.MultipleFiles = FO.OpMultipleFiles
+    If VarType(FO.MultipleFiles) = vbBoolean Then
+        context.IsCanceled = True
+        Exit Sub
+    End If
+    
+    '---ファイル選択ダイアログより取得したファイルパスより全ブックを一括登録
+    '---FO.MultipleFilesの配列インデックスは1ベースのため注意
+    Dim i As Long
+    For i = LBound(FO.MultipleFiles) To UBound(FO.MultipleFiles)
+        bm.AddWorkbook "selectBook_" & i, FO.MultipleFiles(i)
+        sc.AddWs bm.GetWb("selectBook_" & i).Sheets(1), "selectSheet_" & i
+    Next i
 
 
     '========================================================================
