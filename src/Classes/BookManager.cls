@@ -27,6 +27,34 @@ Private Sub Class_Initialize()
 End Sub
 
 
+'---新規ブックの作成＋ディクショナリ登録
+Public Function AddNewWorkbook(ByVal key As String, _
+                               Optional ByVal savePath As String = "") As Workbook
+
+    '---キー重複チェック
+    If wbDict.Exists(key) Then
+        MsgBox "キー '" & key & "' は既に存在します。", vbExclamation, MACRO_NAME
+        Exit Function
+    End If
+
+    Dim wb As Workbook
+    Set wb = Workbooks.Add
+    
+    '---保存パスが指定されている場合は保存
+    If savePath <> "" Then
+        wb.SaveAs savePath
+    End If
+
+    '---登録
+    wbDict.Add key, wb
+    
+    Logger.DebugMsg CLASS_NAME & " 新規ブック作成・登録 : " & _
+                    IIf(savePath = "", "(未保存)", savePath) & " | key : " & key
+
+    Set AddNewWorkbook = wb
+
+End Function
+
 '---ブックのディクショナリへの追加
 '---ディクショナリを使用するためaddにはkeyとフルパスが必要
 '---IsWorkbookOpenを呼び出して指定したブックが開いているかを判断し適切に処理
@@ -71,6 +99,25 @@ Public Function GetWb(ByVal key As String) As Workbook
     End If
     
 End Function
+
+
+'---クラス管理下ブック用の保存処理
+Public Sub SaveWorkbookAs(ByVal key As String, ByVal filePath As String)
+
+    If Not wbDict.Exists(key) Then
+        MsgBox "キー '" & key & "' は存在しません。", vbExclamation, MACRO_NAME
+        Exit Sub
+    End If
+
+    Dim wb As Workbook
+    Set wb = wbDict(key)
+    
+    ' 未保存でも上書きでも関係なくSaveAsで統一
+    wb.SaveAs filePath
+    
+    Logger.DebugMsg CLASS_NAME & " SaveAs : " & filePath & " | key : " & key
+
+End Sub
 
 
 '---ディクショナリの確認用
@@ -139,3 +186,5 @@ Private Function IsWorkbookOpen(ByVal wbName As String) As Boolean
     On Error GoTo 0
     
 End Function
+
+

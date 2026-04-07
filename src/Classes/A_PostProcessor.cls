@@ -50,17 +50,11 @@ Public Sub RemoveAndCloseByWorkbooks()
     '終了時に閉じないブックはあらかじめBookManagerからオブジェクトを解放しておく
     
     
-    ExcludeBook "wbMacro"
+    bm.Remove "wbMacro"
     
     
     '========================================================================
     
     bm.CloseAll '---BookManagerのブックオブジェクトを全て解放して閉じる
     
-End Sub
-
-
-'---管理クラスに登録されたブックをキー指定で解放する処理
-Private Sub ExcludeBook(ByVal wbName As String)
-    If Not bm.GetWb(wbName) Is Nothing Then bm.Remove wbName
 End Sub
