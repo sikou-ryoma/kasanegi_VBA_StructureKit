@@ -100,6 +100,21 @@ Public Property Let state(ByVal value As ProcessState)
 End Property
 
 
+'---İ’è‚³‚ê‚½ó‘Ô‚ğ‰Šú‰»EÄİ’è
+Public Sub Reset()
+
+    If m_wb Is Nothing Then
+        Err.Raise vbObjectError + 1005, , "State–¢‰Šú‰»"
+    End If
+
+    Dim nm As Name
+    Set nm = m_wb.Names(STATE_NAME)
+
+    m_state = PROCESS_INIT
+    nm.RefersTo = "=" & m_state
+
+End Sub
+
 '---ó‘Ô‘JˆÚ‚Ìƒ‹[ƒ‹
 Private Function CanTransit(ByVal nextState As ProcessState) As Boolean
 
