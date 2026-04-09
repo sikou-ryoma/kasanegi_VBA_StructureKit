@@ -22,7 +22,14 @@ Private Const CLASS_NAME As String = "[Initializer]"
 
 Public Sub ExecuteFlow()
 
-    ClassInit
+    'ClassInit
+    
+    '---汎用クラスの設定
+    Set bm = New BookManager
+    Set sc = New SheetCollection
+    Set du = New DateUtility
+    Set ctx = New ProcessStateManager
+    Set context = New ProcessContext
     
     context.IsCanceled = False
 
@@ -38,11 +45,10 @@ Public Sub ExecuteFlow()
     '( Paths.SetCurrentPath "[指定したいフォルダパス]" )
     Paths.SetCurrentPath Paths.TestPath
 
-
-
-
+    '---マクロがThisWorkbook依存であればマネージャーへ追加
     bm.AddWorkbook "wbMacro", ThisWorkbook.FullName
     sc.AddWs bm.GetWb("wbMacro").Sheets("macro"), "wsMacro"
+
 
 
     '---FO.OpFileでファイル選択ダイアログを開き取得したファイルパスをFO.FileNmに保持
@@ -58,8 +64,7 @@ Public Sub ExecuteFlow()
 '    sc.AddWs bm.GetWb("selectBook").Sheets(1), "selectSheet"
     
     
-    
-    
+        
     '---FO.OpMultipleFilesで選択ダイアログを開き取得した複数のファイルパスをFO.MultipleFilesに配列で保持
     '------------------------------------------------------------------------
     FO.MultipleFiles = FO.OpMultipleFiles
@@ -80,28 +85,6 @@ Public Sub ExecuteFlow()
     '========================================================================
 
     Logger.Info CLASS_NAME & " 設定処理の終了"
-
-End Sub
-
-'---※※この処理の書き換え厳禁※※
-
-Private Sub ClassInit()
-        
-    Set FO = New FileOjt
-    
-    '---汎用クラスの設定
-    LoggerManager.Initialize FO.UpPath(ThisWorkbook.path)
-    
-    Set bm = New BookManager
-    Set sc = New SheetCollection
-    Set du = New DateUtility
-    Set ctx = New ProcessStateManager
-    Set context = New ProcessContext
-    
-    '---PathConfigの設定
-    Set Paths = New PathConfig
-    Paths.init FO.UpPath(ThisWorkbook.path)
-    
 
 End Sub
 

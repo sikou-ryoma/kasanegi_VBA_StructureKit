@@ -15,7 +15,8 @@ Public Sub Run_A()
     Dim app As New ApplicationService
     Dim proc As New A_Process
     
+    AppConfig.InitializeProject ThisWorkbook.path
+    
     app.ExecuteApp proc
         
 End Sub
-

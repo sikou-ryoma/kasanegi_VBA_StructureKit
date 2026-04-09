@@ -2,19 +2,20 @@ Attribute VB_Name = "AppConfig"
 '------------------------------------------------------------------------
 ' ---AppConfig---
 ' 全体の管理設定行います。
-' パブリックレベルの定数、クラスの宣言など。
+' クラスの宣言、設定ファイルより情報を読み込む関数など。
 '------------------------------------------------------------------------
 Option Explicit
 
 
-' マクロ名、バージョン情報の定数宣言
+' アプリケーション情報
 '------------------------------------------------------------------------
-Public Const VERSION As String = "v0.9.0"
-Public Const MACRO_NAME As String = "Template_Macro"
-Public Const KANRI_PASS As String = "9999"  '---IptPass用のパスワード
+Public VERSION As String
+Public MACRO_NAME As String
+Public KANRI_PASS As String
+Public UTIL_GUID As String
 
 
-' パブリックレベルのクラス宣言
+' クラス
 '------------------------------------------------------------------------
 Public FO As FileOjt
 Public bm As BookManager
@@ -23,4 +24,33 @@ Public du As DateUtility
 Public Paths As PathConfig
 Public ctx As ProcessStateManager
 Public context As ProcessContext
+
+
+' プロジェクト情報の初期化
+'------------------------------------------------------------------------
+Public Sub InitializeProject(ByVal wbPath As String)
+    '---プロジェクト情報の読み込み
+    Set FO = New FileOjt
+    AppConfig.InitializeAppConfig FO.UpPath(wbPath)
+    LoggerManager.Initialize FO.UpPath(wbPath)
+    
+    '---プロジェクトフォルダ内の関連パスの設定
+    Set Paths = New PathConfig
+    Paths.init FO.UpPath(wbPath)
+End Sub
+
+
+' 設定ファイルよりapp初期化
+'------------------------------------------------------------------------
+Public Sub InitializeAppConfig(ByVal folderPath As String)
+    Dim xmlPath As String
+    xmlPath = folderPath & "\config\config.xml"
+    Dim config As Object
+    Set config = GetAppConfig(xmlPath)
+    VERSION = "v" & config("Version")
+    MACRO_NAME = config("MacroName")
+    KANRI_PASS = config("KanriPass")
+    UTIL_GUID = config("GUID")
+End Sub
+
 
