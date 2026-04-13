@@ -46,10 +46,10 @@ End Function
 Public Function GetAppConfig(ByVal xmlPath As String) As Object
     Dim config As Object
     Set config = CreateObject("Scripting.Dictionary")
-    config("Version") = ReadXmlValue(xmlPath, "/Config/App/Version")
-    config("MacroName") = ReadXmlValue(xmlPath, "/Config/App/MacroName")
-    config("KanriPass") = ReadXmlValue(xmlPath, "/Config/App/KanriPass")
-    config("GUID") = ReadXmlValue(xmlPath, "/Config/App/GUID")
+    config("Version") = ReadXmlValue(xmlPath, "/Config/App/Meta/Version")
+    config("MacroName") = ReadXmlValue(xmlPath, "/Config/App/Meta/MacroName")
+    config("KanriPass") = ReadXmlValue(xmlPath, "/Config/App/Security/KanriPass")
+    config("GUID") = ReadXmlValue(xmlPath, "/Config/App/Security/GUID")
     Set GetAppConfig = config
 End Function
 

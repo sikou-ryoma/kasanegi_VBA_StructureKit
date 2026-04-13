@@ -29,14 +29,18 @@ Public context As ProcessContext
 ' プロジェクト情報の初期化
 '------------------------------------------------------------------------
 Public Sub InitializeProject(ByVal wbPath As String)
-    '---プロジェクト情報の読み込み
+    Dim rootPath as String
+
     Set FO = New FileOjt
-    AppConfig.InitializeAppConfig FO.UpPath(wbPath)
-    LoggerManager.Initialize FO.UpPath(wbPath)
-    
+    rootPath = FO.UpPath(wbPath)
+
+    '---プロジェクト情報の読み込み
+    AppConfig.InitializeAppConfig rootPath
+    LoggerManager.Initialize rootPath
+
     '---プロジェクトフォルダ内の関連パスの設定
     Set Paths = New PathConfig
-    Paths.init FO.UpPath(wbPath)
+    Paths.init rootPath
 End Sub
 
 
@@ -45,8 +49,10 @@ End Sub
 Public Sub InitializeAppConfig(ByVal folderPath As String)
     Dim xmlPath As String
     xmlPath = folderPath & "\config\config.xml"
+
     Dim config As Object
     Set config = GetAppConfig(xmlPath)
+    
     VERSION = "v" & config("Version")
     MACRO_NAME = config("MacroName")
     KANRI_PASS = config("KanriPass")
