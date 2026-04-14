@@ -41,6 +41,28 @@ Public Function ReadXmlValue(ByVal xmlPath As String, ByVal xpath As String) As 
 End Function
 
 
+' XML書き込み用関数
+'------------------------------------------------------------------------
+Public Function WriteXmlValue(ByVal xmlPath As String, ByVal xpath As String, ByVal value As String) As Boolean
+    Dim xmlDoc As Object
+    Set xmlDoc = CreateObject("MSXML2.DOMDocument")
+    xmlDoc.Load xmlPath
+    If xmlDoc.parseError.ErrorCode <> 0 Then
+        WriteXmlValue = False
+        Exit Function
+    End If
+    Dim node As Object
+    Set node = xmlDoc.selectSingleNode(xpath)
+    If Not node Is Nothing Then
+        node.Text = value
+        xmlDoc.Save xmlPath
+        WriteXmlValue = True
+    Else
+        WriteXmlValue = False
+    End If
+End Function
+
+
 ' XMLよりアプリケーション設定を読み込む関数
 '------------------------------------------------------------------------
 Public Function GetAppConfig(ByVal xmlPath As String) As Object
