@@ -34,7 +34,7 @@ Public Function ReadXmlValue(ByVal xmlPath As String, ByVal xpath As String) As 
     Dim node As Object
     Set node = xmlDoc.selectSingleNode(xpath)
     If Not node Is Nothing Then
-        ReadXmlValue = node.Text
+        ReadXmlValue = node.text
     Else
         ReadXmlValue = ""
     End If
@@ -54,7 +54,7 @@ Public Function WriteXmlValue(ByVal xmlPath As String, ByVal xpath As String, By
     Dim node As Object
     Set node = xmlDoc.selectSingleNode(xpath)
     If Not node Is Nothing Then
-        node.Text = value
+        node.text = value
         xmlDoc.Save xmlPath
         WriteXmlValue = True
     Else

@@ -125,7 +125,7 @@ Public Property Get lastRow(Optional ByVal tgtCol As Long = 1) As Long
     If pSheet Is Nothing Then
         lastRow = 0
     Else
-        lastRow = pSheet.Cells(pSheet.Rows.Count, tgtCol).End(xlUp).row
+        lastRow = pSheet.Cells(pSheet.Rows.Count, tgtCol).End(xlUp).Row
     End If
 
 End Property

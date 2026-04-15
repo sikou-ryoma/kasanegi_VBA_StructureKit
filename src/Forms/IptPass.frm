@@ -1,6 +1,6 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} IptPass 
-   Caption         =   "管理パスの入力"
+   Caption         =   "パスワードの入力"
    ClientHeight    =   1590
    ClientLeft      =   120
    ClientTop       =   465
@@ -43,6 +43,7 @@ Private Sub UserForm_Initialize()
     Me.StartUpPosition = 0
     Me.Left = ThisWorkbook.Windows(1).Left + 80
     Me.Top = ThisWorkbook.Windows(1).Top + 110
+    Me.Pass_txt.MaxLength = 4
 End Sub
 
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)

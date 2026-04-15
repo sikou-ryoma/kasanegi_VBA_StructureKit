@@ -29,7 +29,7 @@ Public context As ProcessContext
 ' プロジェクト情報の初期化
 '------------------------------------------------------------------------
 Public Sub InitializeProject(ByVal wbPath As String)
-    Dim rootPath as String
+    Dim rootPath As String
 
     Set FO = New FileOjt
     rootPath = FO.UpPath(wbPath)

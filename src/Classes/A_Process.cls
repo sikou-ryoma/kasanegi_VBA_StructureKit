@@ -21,14 +21,14 @@ Private Const CLASS_NAME As String = "[A_Process]"
 
 Private init As A_Initializer
 Private pre As A_PreProcessor
-Private main As A_MainLogic
+Private Main As A_MainLogic
 Private post As A_PostProcessor
 
 
 Private Sub Class_Initialize()
     Set init = New A_Initializer
     Set pre = New A_PreProcessor
-    Set main = New A_MainLogic
+    Set Main = New A_MainLogic
     Set post = New A_PostProcessor
 End Sub
 
@@ -56,7 +56,7 @@ End Function
 
 
 Private Sub IProcess_MainProcess()
-    main.ExecuteFlow
+    Main.ExecuteFlow
 End Sub
 
 

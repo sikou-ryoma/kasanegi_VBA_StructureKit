@@ -96,7 +96,7 @@ Private Sub WriteLog(ByVal level As String, ByVal message As String)
     
     Dim logPath As String
     Dim fileNum As Integer
-    Dim timeStamp As String
+    Dim timestamp As String
     Dim logLine As String
 
     If Right(pLogFolder, 1) <> "\" Then
@@ -104,8 +104,8 @@ Private Sub WriteLog(ByVal level As String, ByVal message As String)
     End If
     
     logPath = pLogFolder & pFilePrefix & "_" & Format(Date, "yyyymmdd") & ".log"
-    timeStamp = Format(Now, "yyyy/mm/dd hh:nn:ss")
-    logLine = timeStamp & " [" & UCase(level) & "] " & message
+    timestamp = Format(Now, "yyyy/mm/dd hh:nn:ss")
+    logLine = timestamp & " [" & UCase(level) & "] " & message
     
     fileNum = FreeFile
     Open logPath For Append As #fileNum
