@@ -7,27 +7,25 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+'-----------------------------------------------
+' HashProvider
+' 簡易ハッシュ生成用クラス
+'-----------------------------------------------
 Option Explicit
 
 
+
+'---VBAの言語仕様上64bit版のみで動作します
 Public Function DJB2(ByVal text As String) As Long
-#If Win64 Then
-    Dim hash As LongLong
-#Else
-    Dim hash As Long
-#End If
+    Dim Hash As LongLong
 
     Dim i As Long
-    hash = 5381
+    Hash = 5381
 
     For i = 1 To Len(text)
-#If Win64 Then
-        hash = ((hash * 33) + Asc(Mid$(text, i, 1))) And &H7FFFFFFF
-#Else
-        hash = (hash + ((hash And &H3FFFFFF) * 32)) And &H7FFFFFFF
-        hash = (hash + Asc(Mid$(text, i, 1))) And &H7FFFFFFF
-#End If
+        Hash = ((Hash * 33) + Asc(Mid$(text, i, 1))) And &H7FFFFFFF
     Next i
 
-    DJB2 = CLng(hash)
+    DJB2 = CLng(Hash)
 End Function
+
