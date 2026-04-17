@@ -1,13 +1,13 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} IptPass 
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} PasswordForm 
    Caption         =   "パスワードの入力"
    ClientHeight    =   2040
    ClientLeft      =   120
    ClientTop       =   465
    ClientWidth     =   5055
-   OleObjectBlob   =   "IptPass.frx":0000
+   OleObjectBlob   =   "PasswordForm.frx":0000
 End
-Attribute VB_Name = "IptPass"
+Attribute VB_Name = "PasswordForm"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -43,7 +43,7 @@ Private Sub UserForm_Initialize()
     Me.StartUpPosition = 0
     Me.Left = ThisWorkbook.Windows(1).Left + 80
     Me.Top = ThisWorkbook.Windows(1).Top + 110
-    Me.Pass_txt.MaxLength = 16
+    Me.Pass_txt.MaxLength = 32
 End Sub
 
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)

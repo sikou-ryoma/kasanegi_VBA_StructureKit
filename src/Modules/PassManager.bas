@@ -9,11 +9,11 @@ Option Explicit
 '---認証用フォーム
 Public Function SetPassword_4(Optional ByVal val As String = "") As String
     
-    Dim frm As iptPass
+    Dim frm As PasswordForm
     Dim hasher As HashProvider
     Dim text As String
     
-    Set frm = New iptPass
+    Set frm = New PasswordForm
     Set hasher = New HashProvider
     
     text = val
@@ -49,7 +49,7 @@ Public Sub PromptChangePassword()
         Exit Sub
     End If
         
-    inputPass = SetPassword_4("新しく設定するパスワードを入力してください。" & vbCrLf & "※英数字のみ・16文字以内")
+    inputPass = SetPassword_4("新しく設定するパスワードを入力してください。" & vbCrLf & "※英数字のみ・32文字以内")
     
     If inputPass = "" Then
         MsgBox "入力が確認出来ません。", vbExclamation, MACRO_NAME
