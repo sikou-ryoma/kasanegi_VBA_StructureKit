@@ -8,7 +8,7 @@ Option Explicit
 Private Const MODULE_NAME As String = "[PassManager]"
 
 
-'---認証用フォーム
+'---認証フォーム
 Public Function SetPassword(Optional ByVal val As String = "") As String
     
     Dim frm As PasswordForm
@@ -42,7 +42,6 @@ Public Sub PromptChangePassword()
     Dim errMsg As String
     
     AppConfig.InitializeProject ThisWorkbook.path
-    
     xmlPath = Paths.ProjectRoot & "\config\config.xml"
     
     Logger.DebugMsg MODULE_NAME & " パスワード変更開始"
@@ -62,7 +61,7 @@ Public Sub PromptChangePassword()
     End If
     
     If Not ConfigManager.WriteXmlValue(xmlPath, "/Config/App/Security/KanriPass", inputPass) Then
-        errMsg = "xmlファイルまたはノードが存在しない"
+        errMsg = "設定ファイルに問題がある"
         GoTo ExitHandler
     End If
     
