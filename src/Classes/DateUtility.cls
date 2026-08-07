@@ -7,87 +7,112 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-
-'------------------------------------------------------------------------
-' ---DateUtility---
-' 処理における日時の情報を管理するクラスモジュールです。
-' シート得た日付情報を保持して、その月の月初や月末も簡単な記述で取得が可能です。
-'------------------------------------------------------------------------
+'========================================================================
+' DateUtility
+' 日付操作用ユーティリティ
+'========================================================================
 Option Explicit
 
 
-Private Const CLASS_NAME As String = "[DateUtility]"
+'----------------------------------------------------------
+' 月初日を取得
+'----------------------------------------------------------
+Public Function FirstDay(ByVal dt As Date) As Date
+    FirstDay = DateSerial(Year(dt), Month(dt), 1)
+End Function
 
-Private tgtY As Long 'targetYear
-Private tgtM As Long 'targetMonth
-Private tgtD As Long 'targetDay
+'----------------------------------------------------------
+' 月末日を取得
+'----------------------------------------------------------
+Public Function LastDay(ByVal dt As Date) As Date
+    LastDay = DateSerial(Year(dt), Month(dt) + 1, 1) - 1
+End Function
 
-
-'---インスタンス生成時に現在の日付の情報が入る
-Private Sub Class_Initialize()
-    tgtY = Year(Date)
-    tgtM = Month(Date)
-    tgtD = Day(Date)
-End Sub
-
-
-'---年(西暦4桁)の設定・取得
-Public Property Let targetYear(ByVal inputYear As Long)
-    tgtY = inputYear
-End Property
-
-Public Property Get targetYear() As Long
-    targetYear = tgtY
-End Property
-
-
-'---月の設定・取得
-Public Property Let targetMonth(ByVal inputMonth As Long)
-    tgtM = inputMonth
-End Property
-
-Public Property Get targetMonth() As Long
-    targetMonth = tgtM
-End Property
-
-
-'---日の設定・取得
-Public Property Let targetDay(ByVal inputDay As Long)
-    tgtD = inputDay
-End Property
-
-Public Property Get targetDay() As Long
-    targetDay = tgtD
-End Property
-
-
-'---設定した年月より月初日のシリアル値を取得
-Public Property Get FirstDayOfMonth() As Date
-    FirstDayOfMonth = DateSerial(tgtY, tgtM, 1)
-End Property
-
-
-'---設定した年月より月末日のシリアル値を取得
-Public Property Get LastDayOfMonth() As Date
-    LastDayOfMonth = DateSerial(tgtY, tgtM + 1, 1) - 1
-End Property
-
-
-'---引数に指定したシリアル値の年月より月初日のシリアル値を取得
-Public Function FirstDayOfMonthFromVal(ByVal dt As Date) As Date
-    FirstDayOfMonthFromVal = DateSerial(Year(dt), Month(dt), 1)
+'----------------------------------------------------------
+' 月の日数を取得
+'----------------------------------------------------------
+Public Function DaysInMonth(ByVal dt As Date) As Long
+    DaysInMonth = Day(LastDay(dt))
 End Function
 
 
-'---引数に指定したシリアル値の年月より月末日のシリアル値を取得
-Public Property Get LastDayOfMonthFromVal(ByVal dt As Date) As Date
-    LastDayOfMonthFromVal = DateSerial(Year(dt), Month(dt) + 1, 1) - 1
-End Property
+'----------------------------------------------------------
+' うるう年判定
+'----------------------------------------------------------
+Public Function IsLeapYear(ByVal targetYear As Long) As Boolean
+
+    IsLeapYear = _
+        (targetYear Mod 400 = 0) _
+        Or _
+        ((targetYear Mod 4 = 0) And (targetYear Mod 100 <> 0))
+
+End Function
 
 
-'---設定した年月日よりその日のシリアル値を取得
-Public Property Get targetDate() As Date
-    targetDate = DateSerial(tgtY, tgtM, tgtD)
-End Property
+'----------------------------------------------------------
+' yyyyMM形式
+' 例：202608
+'----------------------------------------------------------
+Public Function FormatYYYYMM(ByVal dt As Date) As String
+    FormatYYYYMM = Format$(dt, "yyyymm")
+End Function
 
+'----------------------------------------------------------
+' yyyy/MM形式
+' 例：2026/08
+'----------------------------------------------------------
+Public Function FormatYearMonth(ByVal dt As Date) As String
+    FormatYearMonth = Format$(dt, "yyyy/mm")
+End Function
+
+'----------------------------------------------------------
+' yyyy/MM/dd形式
+'----------------------------------------------------------
+Public Function FormatDate(ByVal dt As Date) As String
+    FormatDate = Format$(dt, "yyyy/mm/dd")
+End Function
+
+'----------------------------------------------------------
+' 日付を加算
+'----------------------------------------------------------
+Public Function AddDays(ByVal dt As Date, ByVal days As Long) As Date
+    AddDays = DateAdd("d", days, dt)
+End Function
+
+'----------------------------------------------------------
+' 月を加算
+'----------------------------------------------------------
+Public Function AddMonths(ByVal dt As Date, ByVal months As Long) As Date
+    AddMonths = DateAdd("m", months, dt)
+End Function
+
+'----------------------------------------------------------
+' 年を加算
+'----------------------------------------------------------
+Public Function AddYears(ByVal dt As Date, ByVal years As Long) As Date
+    AddYears = DateAdd("yyyy", years, dt)
+End Function
+
+'----------------------------------------------------------
+' 曜日番号取得
+' 月曜=1 ～ 日曜=7
+'----------------------------------------------------------
+Public Function WeekdayNumber(ByVal dt As Date) As Long
+    WeekdayNumber = Weekday(dt, vbMonday)
+End Function
+
+'----------------------------------------------------------
+' 曜日名取得
+'----------------------------------------------------------
+Public Function WeekdayNameJP(ByVal dt As Date) As String
+
+    Static names As Variant
+
+    If IsEmpty(names) Then
+        names = Array("月", "火", "水", "木", "金", "土", "日")
+    End If
+
+    WeekdayNameJP = names(Weekday(dt, vbMonday) - 1)
+
+End Function
 

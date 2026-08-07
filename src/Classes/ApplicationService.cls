@@ -9,7 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Const CLASS_NAME As String = "[ApplicationService]"
+Private Const CLASS_NAME As String = "ApplicationService"
 
 
 Public Sub ExecuteApp(ByVal proc As IProcess)
@@ -23,25 +23,32 @@ Public Sub ExecuteApp(ByVal proc As IProcess)
     
     If proc.CanExecute = False Then Exit Sub
     
-    WaitMsgShow
-    
+    'WaitMsgShow
+    ShowProgress
+    Progress.Value 20
+        
     proc.MainProcess
+    Progress.Value 70
     
     proc.PostProcess
+    Progress.Value 99
     
-    Unload WaitMsg
-    MsgBox "処理が完了しました。", vbInformation, MACRO_NAME
-    Logger.Info CLASS_NAME & " 正常終了"
     Application.ScreenUpdating = True
+        
+    Progress.SelfClose
+    'Unload WaitMsg
+    MsgBox "処理が完了しました。", vbInformation, MACRO_NAME
+    Logger.Info "正常終了", CLASS_NAME
     
     Exit Sub
     
     
-    
 ErrHandler:
-    
-    Logger.ErrorMsg CLASS_NAME & " エラー発生 : " & Err.Description
-    Logger.WarnMsg CLASS_NAME & " 処理を中断しました"
+
+    Progress.SelfClose
+    'Unload WaitMsg
+    Logger.ErrorMsg "エラー発生 : " & Err.Description, CLASS_NAME
+    Logger.WarnMsg "処理を中断しました", CLASS_NAME
     MsgBox "エラーが発生しました。" & vbCrLf & "エラーメッセージ : " & Err.Description, vbExclamation, MACRO_NAME
     Unload WaitMsg
     MsgBox "処理を中断します。", vbExclamation, MACRO_NAME

@@ -2,7 +2,7 @@ Attribute VB_Name = "ProgressManager"
 Option Explicit
 
 
-Public Sub ShowProgress(Optional ByVal seconds As Long = 0)
+Public Sub ShowProgress(Optional ByVal seconds As Long = 2)
     
     Set Progress = New Progress
     Dim waitUntil As Date
@@ -34,3 +34,4 @@ Public Function IsFormOpen(ByVal FormName As String) As Boolean
     Next frm
 
 End Function
+

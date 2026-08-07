@@ -15,8 +15,7 @@ Attribute VB_Exposed = False
 '------------------------------------------------------------------------
 Option Explicit
 
-
-Private Const CLASS_NAME As String = "[BookManager]"
+Private Const CLASS_NAME As String = "BookManager"
 
 Private wbDict As Object
 
@@ -48,15 +47,15 @@ Public Function AddNewWorkbook(ByVal key As String, _
     '---登録
     wbDict.Add key, wb
     
-    Logger.DebugMsg CLASS_NAME & " 新規ブック作成・登録 : " & _
-                    IIf(savePath = "", "(未保存)", savePath) & " | key : " & key
+    Logger.DebugMsg "新規ブック作成・登録 : " & _
+                    IIf(savePath = "", "(未保存)", savePath) & " | key : " & key, CLASS_NAME
 
     Set AddNewWorkbook = wb
 
 End Function
 
+
 '---ブックのディクショナリへの追加
-'---ディクショナリを使用するためaddにはkeyとフルパスが必要
 '---IsWorkbookOpenを呼び出して指定したブックが開いているかを判断し適切に処理
 Public Sub AddWorkbook(ByVal key As String, ByVal filePath As String)
 
@@ -81,7 +80,7 @@ Public Sub AddWorkbook(ByVal key As String, ByVal filePath As String)
             Set wb = Workbooks.Open(filePath)
             wbDict.Add key, wb
         End If
-        Logger.DebugMsg CLASS_NAME & " 登録 : " & filePath & " | key : " & key
+        Logger.DebugMsg "登録 : " & filePath & " | key : " & key, CLASS_NAME
     Else
         MsgBox "キー '" & key & "' は既に存在します。", vbExclamation, MACRO_NAME
     End If
@@ -89,7 +88,7 @@ Public Sub AddWorkbook(ByVal key As String, ByVal filePath As String)
 End Sub
 
 
-'---ディクショナリよりブックの呼び出し(直接オブジェクトとして使用可能)
+'---ブックの呼び出し(オブジェクトとして直接使用可能)
 Public Function GetWb(ByVal key As String) As Workbook
 
     If wbDict.Exists(key) Then
@@ -115,7 +114,7 @@ Public Sub SaveWorkbookAs(ByVal key As String, ByVal filePath As String)
     ' 未保存でも上書きでも関係なくSaveAsで統一
     wb.SaveAs filePath
     
-    Logger.DebugMsg CLASS_NAME & " SaveAs : " & filePath & " | key : " & key
+    Logger.DebugMsg "SaveAs : " & filePath & " | key : " & key, CLASS_NAME
 
 End Sub
 
@@ -124,14 +123,14 @@ End Sub
 Public Sub PrintWorkbookNames()
 
     Dim k As Variant
-    Logger.DebugMsg CLASS_NAME & " ================================================================================="
-    Logger.DebugMsg CLASS_NAME & "  BookManager内に登録されたブック"
-    Logger.DebugMsg CLASS_NAME & " ---------------------------------------------------------------------------------"
+    Logger.DebugMsg "=================================================================================", CLASS_NAME
+    Logger.DebugMsg " BookManager内に登録されたブック", CLASS_NAME
+    Logger.DebugMsg "---------------------------------------------------------------------------------", CLASS_NAME
     For Each k In wbDict.keys
         Debug.Print k & ": " & wbDict(k).Name
-        Logger.DebugMsg CLASS_NAME & " " & k & " : " & wbDict(k).Name
+        Logger.DebugMsg k & " : " & wbDict(k).Name, CLASS_NAME
     Next k
-    Logger.DebugMsg CLASS_NAME & " ================================================================================="
+    Logger.DebugMsg "=================================================================================", CLASS_NAME
     
 End Sub
 
@@ -142,7 +141,7 @@ Public Sub CloseAndRemove(ByVal key As String, Optional ByVal saveChanges As Boo
     If wbDict.Exists(key) Then
         wbDict(key).Close saveChanges:=saveChanges
         wbDict.Remove key
-        Logger.DebugMsg CLASS_NAME & " 登録ブックの終了 : " & key
+        Logger.DebugMsg "登録ブックの終了 : " & key, CLASS_NAME
     End If
     
 End Sub
@@ -153,7 +152,7 @@ Public Sub Remove(ByVal key As String)
 
     If wbDict.Exists(key) Then
         wbDict.Remove key
-        Logger.DebugMsg CLASS_NAME & " 登録キーの削除 : " & key
+        Logger.DebugMsg "登録キーの削除 : " & key, CLASS_NAME
     End If
     
 End Sub
@@ -169,13 +168,12 @@ Public Sub CloseAll(Optional ByVal saveChanges As Boolean = False)
     Next k
     
     wbDict.RemoveAll
-    Logger.DebugMsg CLASS_NAME & " 登録された全ブックの終了"
+    Logger.DebugMsg "登録された全ブックの終了", CLASS_NAME
     
 End Sub
 
 
 '---指定したブックが開いているかを確認する関数
-'---AddWorkbook用の関数
 Private Function IsWorkbookOpen(ByVal wbName As String) As Boolean
 
     Dim wb As Workbook

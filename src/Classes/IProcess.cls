@@ -20,7 +20,6 @@ Public Sub Preprocess()
 End Sub
 
 Public Function CanExecute() As Boolean
-    CanExecute = True
 End Function
 
 Public Sub MainProcess()

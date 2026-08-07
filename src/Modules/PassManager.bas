@@ -5,7 +5,7 @@ Attribute VB_Name = "PassManager"
 '----------------------------------------------------------------------
 Option Explicit
 
-Private Const MODULE_NAME As String = "[PassManager]"
+Private Const MODULE_NAME As String = "PassManager"
 
 
 '---認証フォーム
@@ -21,7 +21,7 @@ Public Function SetPassword(Optional ByVal val As String = "") As String
     text = val
     If text = "" Then text = "管理パスワードを入力してください。"
     
-    frm.MsgLbl.Caption = text
+    frm.msgLbl.Caption = text
     frm.Show
     
     If frm.Tag = "" Then
@@ -44,7 +44,7 @@ Public Sub PromptChangePassword()
     AppConfig.InitializeProject ThisWorkbook.path
     xmlPath = Paths.ProjectRoot & "\config\config.xml"
     
-    Logger.DebugMsg MODULE_NAME & " パスワード変更開始"
+    Logger.DebugMsg "パスワード変更開始", MODULE_NAME
     inputPass = SetPassword("現在の管理パスワードを入力してください。")
     
     If inputPass <> KANRI_PASS Then
@@ -65,13 +65,13 @@ Public Sub PromptChangePassword()
         GoTo ExitHandler
     End If
     
-    Logger.DebugMsg MODULE_NAME & " パスワード変更成功"
+    Logger.DebugMsg "パスワード変更成功", MODULE_NAME
     MsgBox "パスワードを変更しました。", vbInformation, MACRO_NAME
     Exit Sub
     
     
 ExitHandler:
-    Logger.DebugMsg MODULE_NAME & " パスワード変更失敗 : " & errMsg
+    Logger.DebugMsg "パスワード変更失敗 : " & errMsg, MODULE_NAME
     MsgBox "パスワードの変更処理がキャンセルされました。" & vbCrLf & _
         "内容 : " & errMsg & "ため", vbExclamation, MACRO_NAME
 

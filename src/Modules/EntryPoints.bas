@@ -7,7 +7,7 @@ Attribute VB_Name = "EntryPoints"
 Option Explicit
 
 
-Private Const MODULE_NAME As String = "[EntryPoints]"
+Private Const MODULE_NAME As String = "EntryPoints"
 
 
 Public Sub Run_A()

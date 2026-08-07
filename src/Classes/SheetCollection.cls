@@ -19,8 +19,7 @@ Attribute VB_Exposed = False
 '------------------------------------------------------------------------
 Option Explicit
 
-
-Private Const CLASS_NAME As String = "[SheetCollection]"
+Private Const CLASS_NAME As String = "SheetCollection"
 
 Private pDict As Object
 
@@ -56,7 +55,7 @@ Public Sub AddWs(ByVal ws As Worksheet, Optional ByVal key As String)
     Set sm = New SheetManager
     Set sm.sheet = ws
     pDict.Add key, sm
-    Logger.DebugMsg CLASS_NAME & " 登録 : " & sm.sheet.Name & " | key : " & key
+    Logger.DebugMsg "登録 : " & sm.sheet.Name & " | key : " & key, CLASS_NAME
     
 End Sub
 
@@ -66,7 +65,7 @@ Public Sub Remove(ByVal key As String)
     
     If pDict.Exists(key) Then
         pDict.Remove key
-        Logger.DebugMsg CLASS_NAME & " 登録キーの削除 : " & key
+        Logger.DebugMsg "登録キーの削除 : " & key, CLASS_NAME
     End If
     
 End Sub
@@ -158,9 +157,9 @@ Public Sub ForEachCall(ByVal methodName As String, ParamArray args() As Variant)
                     '---4つ以上の引数が必要な場合は適宜拡張
                     CallByName obj, methodName, VbMethod, args
             End Select
-            If Err.Number <> 0 Then
+            If Err.number <> 0 Then
                 '---エラーは無視して次へ（必要ならログ出力する）
-                Debug.Print "ForEachCall error on key=" & key & " method=" & methodName & " Err=" & Err.Number & ":" & Err.Description
+                Debug.Print "ForEachCall error on key=" & key & " method=" & methodName & " Err=" & Err.number & ":" & Err.Description
                 Err.Clear
             End If
             On Error GoTo 0
@@ -186,6 +185,6 @@ Public Sub Clear()
         On Error GoTo 0
     Next key
     pDict.RemoveAll
-    Logger.DebugMsg CLASS_NAME & " 登録された全シートの各インスタンス解放"
+    Logger.DebugMsg "登録された全シートの各インスタンス解放", CLASS_NAME
 End Sub
 

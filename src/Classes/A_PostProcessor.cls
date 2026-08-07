@@ -9,22 +9,17 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '------------------------------------------------------------------------
 ' ---PostProcessor---
-' 後処理用クラスです。
-' オブジェクトの解放やブックの終了処理などを行います。
-' 必要な追加処理がある場合は下記の枠内に記入してください。
-'
-' また、このクラスモジュールの処理で管理クラスに登録されたブックは全て閉じます。
-' この時に閉じたくないブックがある場合は下記 "RemoveAndCloseByWorkbooks" の枠内より事前に管理クラスからオブジェクトの解放を行うことで回避できます。
+' このクラスモジュールの処理で管理クラスに登録されたブックは全て閉じます。
+' 終了時に閉じないブックがある場合は"RemoveAndCloseByWorkbooks"で指示。
 '------------------------------------------------------------------------
 Option Explicit
 
-
-Private Const CLASS_NAME As String = "[PostProcessor]"
+Private Const CLASS_NAME As String = "PostProcessor"
 
 
 Public Sub ExecuteFlow()
 
-    Logger.Info CLASS_NAME & " 処理の開始"
+    Logger.Info "処理の開始", CLASS_NAME
 
     '========================================================================
     'ブックの保存など追加で処理がある場合はここに記述
@@ -35,14 +30,12 @@ Public Sub ExecuteFlow()
     
     Call RemoveAndCloseByWorkbooks
 
-    Logger.Info CLASS_NAME & " 処理の終了"
+    Logger.Info "処理の終了", CLASS_NAME
 
 End Sub
 
 
 Public Sub RemoveAndCloseByWorkbooks()
-
-    Const PROC_NAME As String = "[RemoveAndCloseByWorkbooks]"
 
     sc.Clear    '---SheetCollectionのシートを全て解放
     
@@ -50,8 +43,8 @@ Public Sub RemoveAndCloseByWorkbooks()
     '終了時に閉じないブックはあらかじめBookManagerからオブジェクトを解放しておく
     
     
-    bm.Remove "wbMacro"
-    
+    bm.Remove "wbMacro" '---これでこのブックが閉じなくなる
+        
     
     '========================================================================
     

@@ -9,27 +9,24 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '------------------------------------------------------------------------
 ' ---MainProcessor---
-' 本処理用クラスです。
-' 実際に行いたい処理は下記枠内に記述してください。
 '------------------------------------------------------------------------
 Option Explicit
 
-
-Private Const CLASS_NAME As String = "[MainProcessor]"
+Private Const CLASS_NAME As String = "MainProcessor"
 
 
 Public Sub ExecuteFlow()
 
-    Logger.Info CLASS_NAME & " 処理の開始"
+    Logger.Info "処理の開始", CLASS_NAME
     
     '========================================================================
-    'ここに処理を記述またはモジュール、プロシージャをCallする
+    'ここに処理を記述
     
     MsgBox "取得した値 : " & GetValue(sc.GetWs("selectSheet_1")), vbInformation, MACRO_NAME  '---サンプル用プロシージャ
     
     '========================================================================
         
-    Logger.Info CLASS_NAME & " 処理の終了"
+    Logger.Info "処理の終了", CLASS_NAME
 
 End Sub
 
@@ -46,8 +43,8 @@ Private Function GetValue(ByRef ws As SheetManager) As Variant
     If rc = vbYes Then
         With ws
             Set .RNG = .sheet.Cells(1, A__)
-            GetValue = .RNG.value
-            Logger.DebugMsg PROC_NAME & " 取得した値 : " & .RNG.value
+            GetValue = .RNG.Value
+            Logger.DebugMsg "取得した値 : " & .RNG.Value, PROC_NAME
         End With
     Else
         '---何もしない

@@ -15,15 +15,14 @@ Attribute VB_Exposed = False
 '------------------------------------------------------------------------
 Option Explicit
 
-
-Private Const CLASS_NAME As String = "[PathConfig]"
+Private Const CLASS_NAME As String = "PathConfig"
 
 Private mProjectRoot As String
 Private mReportsPath As String
 Private mTempPath As String
 Private mTestPath As String
 Private mFormatPath As String
-Private mCustomPaths As Object '---管理にはディクショナリを使用
+Private mCustomPaths As Object '---管理にディクショナリを使用
 
 
 Private Sub Class_Initialize()
@@ -66,15 +65,15 @@ Public Sub init(ByVal basePath As String)
     mTestPath = mProjectRoot & "\test"
     mFormatPath = mProjectRoot & "\workbook\format"
     
-    Logger.DebugMsg CLASS_NAME & " ================================================================================="
-    Logger.DebugMsg CLASS_NAME & " 各パスの設定"
-    Logger.DebugMsg CLASS_NAME & " ---------------------------------------------------------------------------------"
-    Logger.DebugMsg CLASS_NAME & " ProjectRoot : " & mProjectRoot
-    Logger.DebugMsg CLASS_NAME & " ReportsPath : " & mReportsPath
-    Logger.DebugMsg CLASS_NAME & " TempPath    : " & mTempPath
-    Logger.DebugMsg CLASS_NAME & " TestPath    : " & mTestPath
-    Logger.DebugMsg CLASS_NAME & " FormatPath  : " & mFormatPath
-    Logger.DebugMsg CLASS_NAME & " ================================================================================="
+    Logger.DebugMsg "=================================================================================", CLASS_NAME
+    Logger.DebugMsg "各パスの設定", CLASS_NAME
+    Logger.DebugMsg "---------------------------------------------------------------------------------", CLASS_NAME
+    Logger.DebugMsg "ProjectRoot : " & mProjectRoot, CLASS_NAME
+    Logger.DebugMsg "ReportsPath : " & mReportsPath, CLASS_NAME
+    Logger.DebugMsg "TempPath    : " & mTempPath, CLASS_NAME
+    Logger.DebugMsg "TestPath    : " & mTestPath, CLASS_NAME
+    Logger.DebugMsg "FormatPath  : " & mFormatPath, CLASS_NAME
+    Logger.DebugMsg "=================================================================================", CLASS_NAME
     
 End Sub
 
@@ -83,10 +82,10 @@ End Sub
 Public Sub SetPath(ByVal key As String, ByVal path As String)
     If mCustomPaths.Exists(key) Then
         mCustomPaths(key) = path
-        Logger.DebugMsg CLASS_NAME & " パスを追加 : " & path & " | key : " & key
+        Logger.DebugMsg "パスを追加 : " & path & " | key : " & key, CLASS_NAME
     Else
         mCustomPaths.Add key, path
-        Logger.DebugMsg CLASS_NAME & " パスを追加 : " & path & " | key : " & key
+        Logger.DebugMsg "パスを追加 : " & path & " | key : " & key, CLASS_NAME
     End If
 End Sub
 
@@ -107,7 +106,7 @@ Public Sub SetCurrentPath(Optional ByVal basePath As String = "")
     
     ChDrive Left(basePath, 1)
     ChDir basePath
-    Logger.DebugMsg CLASS_NAME & " カレントパスを設定 : " & basePath
+    Logger.DebugMsg "カレントパスを設定 : " & basePath, CLASS_NAME
 
 End Sub
 

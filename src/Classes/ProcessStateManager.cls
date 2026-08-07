@@ -15,10 +15,9 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-
 ' 定数
 '------------------------------------------------------------------------
-Private Const CLASS_NAME As String = "[ProcessStateManager]"
+Private Const CLASS_NAME As String = "ProcessStateManager"
 Private Const STATE_NAME As String = "_sys_ProcessState"
 
 
@@ -38,8 +37,6 @@ Private m_state As ProcessState
 Private m_wb As Workbook
 
 
-
-
 '---初期化 or 読み込み（Name版）
 Public Sub Load(ByRef wb As Workbook)
 
@@ -47,13 +44,13 @@ Public Sub Load(ByRef wb As Workbook)
     
     Dim nm As Name
     On Error Resume Next
-    Set nm = m_wb.Names(STATE_NAME)
+    Set nm = m_wb.names(STATE_NAME)
     On Error GoTo 0
 
     If nm Is Nothing Then
         '---無ければ新規作成
         m_state = PROCESS_INIT
-        m_wb.Names.Add Name:=STATE_NAME, RefersTo:="=" & m_state
+        m_wb.names.Add Name:=STATE_NAME, RefersTo:="=" & m_state
         
     Else
         '---既存状態の読み込み
@@ -78,24 +75,24 @@ End Property
 
 
 '---状態更新
-Public Property Let state(ByVal value As ProcessState)
+Public Property Let state(ByVal Value As ProcessState)
 
     If m_wb Is Nothing Then
         Err.Raise vbObjectError + 1000, , "State未初期化"
     End If
     
     '---状態遷移チェック
-    If Not CanTransit(value) Then
+    If Not CanTransit(Value) Then
         Err.Raise vbObjectError + 1001, , "不正な状態遷移"
     End If
 
     Dim nm As Name
-    Set nm = m_wb.Names(STATE_NAME)
+    Set nm = m_wb.names(STATE_NAME)
 
     '---永続化（式として書く）
-    nm.RefersTo = "=" & value
+    nm.RefersTo = "=" & Value
     
-    m_state = value
+    m_state = Value
 
 End Property
 
@@ -108,12 +105,13 @@ Public Sub Reset()
     End If
 
     Dim nm As Name
-    Set nm = m_wb.Names(STATE_NAME)
+    Set nm = m_wb.names(STATE_NAME)
 
     m_state = PROCESS_INIT
     nm.RefersTo = "=" & m_state
 
 End Sub
+
 
 '---状態遷移のルール
 Private Function CanTransit(ByVal nextState As ProcessState) As Boolean

@@ -2,24 +2,19 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "clsLogger"
+Attribute VB_Name = "LogWriter"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 
 '------------------------------------------------------------------------
-' ---clsLogger---
-' 開発用のロガーです。
-' 書き込み先はプロジェクトルート、logフォルダ内に日付ごとのテキストファイルを生成します。
-' 起動は別途モジュール(LogInit)で行います。
-' ログのテキストファイル名、ログレベルなどの設定はプロジェクトルート、configフォルダ内の.iniファイルより設定してください。
-' .iniファイルを使用するためのAPI宣言、設定は別途モジュール(ModConfig)を参照してください。
+' ---LogWriter---
+' 開発用ロガー
 '------------------------------------------------------------------------
 Option Explicit
 
-
-Private Const CLASS_NAME As String = "[clsLogger]"
+Private Const CLASS_NAME As String = "LogWriter"
 
 Private pLogLevel As String
 Private pLogFolder As String
@@ -57,7 +52,6 @@ Public Property Get FilePrefix() As String
 End Property
 
 
-'---初期化
 Private Sub Class_Initialize()
     pLogFolder = ThisWorkbook.path
     pFilePrefix = "log"
@@ -66,31 +60,31 @@ End Sub
 
 
 '---ログ出力 : INFO
-Public Sub Info(ByVal message As String)
-    WriteLog "INFO", message
+Public Sub Info(ByVal message As String, Optional ByVal moduleName As String = "")
+    WriteLog "INFO", message, moduleName
 End Sub
 
 
 '---ログ出力 : DEBUG
-Public Sub DebugMsg(ByVal message As String)
-    WriteLog "DEBUG", message
+Public Sub DebugMsg(ByVal message As String, Optional ByVal moduleName As String = "")
+    WriteLog "DEBUG", message, moduleName
 End Sub
 
 
 '---ログ出力 : WARN
-Public Sub WarnMsg(ByVal message As String)
-    WriteLog "WARN", message
+Public Sub WarnMsg(ByVal message As String, Optional ByVal moduleName As String = "")
+    WriteLog "WARN", message, moduleName
 End Sub
 
 
 '---ログ出力 : ERROR
-Public Sub ErrorMsg(ByVal message As String)
-    WriteLog "ERROR", message
+Public Sub ErrorMsg(ByVal message As String, Optional ByVal moduleName As String = "")
+    WriteLog "ERROR", message, moduleName
 End Sub
 
 
 '---共通ログ出力ロジック
-Private Sub WriteLog(ByVal level As String, ByVal message As String)
+Private Sub WriteLog(ByVal level As String, ByVal message As String, ByVal moduleName As String)
 
     If Not ShouldWrite(level) Then Exit Sub
     
@@ -98,6 +92,7 @@ Private Sub WriteLog(ByVal level As String, ByVal message As String)
     Dim fileNum As Integer
     Dim timestamp As String
     Dim logLine As String
+    Dim modName As String
 
     If Right(pLogFolder, 1) <> "\" Then
         pLogFolder = pLogFolder & "\"
@@ -105,7 +100,14 @@ Private Sub WriteLog(ByVal level As String, ByVal message As String)
     
     logPath = pLogFolder & pFilePrefix & "_" & Format(Date, "yyyymmdd") & ".log"
     timestamp = Format(Now, "yyyy/mm/dd hh:nn:ss")
-    logLine = timestamp & " [" & UCase(level) & "] " & message
+    
+    If moduleName <> "" Then
+        modName = "[" & moduleName & "] "
+    Else
+        modName = ""
+    End If
+    
+    logLine = timestamp & " [" & UCase(level) & "] " & modName & message
     
     fileNum = FreeFile
     Open logPath For Append As #fileNum

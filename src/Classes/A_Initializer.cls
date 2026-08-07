@@ -9,22 +9,15 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '------------------------------------------------------------------------
 ' ---Initializer---
-' イニシャライズ用のクラスです。
-' ここでは各種クラスのインスタンスを生成してます。
-' 基本的なパス設定はパス管理クラスの呼び出しの際に自動で設定されますが、
-' 追加のパスやカレントパスの設定、そのほか追加の設定が場合は枠内に記入してください。
 '------------------------------------------------------------------------
 Option Explicit
 
-
-Private Const CLASS_NAME As String = "[Initializer]"
+Private Const CLASS_NAME As String = "Initializer"
 
 
 Public Sub ExecuteFlow()
-
-    'ClassInit
     
-    '---汎用クラスの設定
+    '---汎用クラスを生成
     Set bm = New BookManager
     Set sc = New SheetCollection
     Set du = New DateUtility
@@ -33,9 +26,23 @@ Public Sub ExecuteFlow()
     
     context.IsCanceled = False
 
-    '========================================================================
-    'オブジェクト取得や設定はここに記述
 
+    AddUsePath  '---任意のパスを登録
+
+    'OpenFileDialog  '---ファイルを取得
+    OpenMultipleFilesDialog '---複数ファイルを取得
+    
+
+    Logger.Info "設定処理の終了", CLASS_NAME
+
+End Sub
+
+
+Private Sub AddUsePath()
+    
+    '---マクロがThisWorkbook依存であればマネージャーへ追加
+    bm.AddWorkbook "wbMacro", ThisWorkbook.FullName
+    sc.AddWs bm.GetWb("wbMacro").Sheets("macro"), "wsMacro"
 
     '---パス管理クラスにパスを追加する
     '( Paths.SetPath "[key]", "[登録したいフォルダパス]" )
@@ -45,46 +52,38 @@ Public Sub ExecuteFlow()
     '( Paths.SetCurrentPath "[指定したいフォルダパス]" )
     Paths.SetCurrentPath Paths.TestPath
 
-    '---マクロがThisWorkbook依存であればマネージャーへ追加
-    bm.AddWorkbook "wbMacro", ThisWorkbook.FullName
-    sc.AddWs bm.GetWb("wbMacro").Sheets("macro"), "wsMacro"
+End Sub
 
 
+Private Sub OpenFileDialog()
 
-    '---FO.OpFileでファイル選択ダイアログを開き取得したファイルパスをFO.FileNmに保持
-    '------------------------------------------------------------------------
-'    FO.FileNm = FO.OpFile
-'    If FO.FileNm = False Then
-'        context.IsCanceled = True
-'        Exit Sub
-'    End If
-    
-    '---ファイル選択ダイアログより取得したファイルパスよりブックを登録
-'    bm.AddWorkbook "selectBook", FO.FileNm
-'    sc.AddWs bm.GetWb("selectBook").Sheets(1), "selectSheet"
-    
-    
-        
-    '---FO.OpMultipleFilesで選択ダイアログを開き取得した複数のファイルパスをFO.MultipleFilesに配列で保持
-    '------------------------------------------------------------------------
-    FO.MultipleFiles = FO.OpMultipleFiles
-    If VarType(FO.MultipleFiles) = vbBoolean Then
+    fs.fileName = fs.OpenFile
+    If fs.fileName = False Then
         context.IsCanceled = True
         Exit Sub
     End If
     
-    '---ファイル選択ダイアログより取得したファイルパスより全ブックを一括登録
-    '---FO.MultipleFilesの配列インデックスは1ベースのため注意
-    Dim i As Long
-    For i = LBound(FO.MultipleFiles) To UBound(FO.MultipleFiles)
-        bm.AddWorkbook "selectBook_" & i, FO.MultipleFiles(i)
-        sc.AddWs bm.GetWb("selectBook_" & i).Sheets(1), "selectSheet_" & i
-    Next i
-
-
-    '========================================================================
-
-    Logger.Info CLASS_NAME & " 設定処理の終了"
+    '---取得したファイルパスよりブックを登録
+    bm.AddWorkbook "selectBook", fs.fileName
+    sc.AddWs bm.GetWb("selectBook").Sheets(1), "selectSheet"
 
 End Sub
 
+
+Private Sub OpenMultipleFilesDialog()
+
+    fs.MultipleFiles = fs.OpenMultipleFiles
+    If VarType(fs.MultipleFiles) = vbBoolean Then
+        context.IsCanceled = True
+        Exit Sub
+    End If
+    
+    '---取得したファイルパスより全ブックを一括登録
+    '---FO.MultipleFilesの配列インデックスは1ベース
+    Dim i As Long
+    For i = LBound(fs.MultipleFiles) To UBound(fs.MultipleFiles)
+        bm.AddWorkbook "selectBook_" & i, fs.MultipleFiles(i)
+        sc.AddWs bm.GetWb("selectBook_" & i).Sheets(1), "selectSheet_1"
+    Next i
+
+End Sub

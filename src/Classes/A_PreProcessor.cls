@@ -14,27 +14,22 @@ Attribute VB_Exposed = False
 '------------------------------------------------------------------------
 Option Explicit
 
-
-Private Const CLASS_NAME As String = "[Preprocessor]"
+Private Const CLASS_NAME As String = "Preprocessor"
 
 
 Public Sub ExecuteFlow()
     
     If context.IsCanceled = True Then Exit Sub
 
-    Logger.Info CLASS_NAME & " 処理の開始"
+    Logger.Info "処理の開始", CLASS_NAME
     
     '========================================================================
-    '事前処理などを記述してください。
     
+    '処理をここに記述
     
-        
-    
-    
-
     '========================================================================
     
-    Logger.Info CLASS_NAME & " 処理の終了"
+    Logger.Info "処理の終了", CLASS_NAME
 
 End Sub
 

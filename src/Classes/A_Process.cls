@@ -17,7 +17,7 @@ Option Explicit
 
 Implements IProcess
 
-Private Const CLASS_NAME As String = "[A_Process]"
+Private Const CLASS_NAME As String = "A_Process"
 
 Private init As A_Initializer
 Private pre As A_PreProcessor
@@ -49,7 +49,7 @@ Private Function IProcess_CanExecute() As Boolean
     
     If context.IsCanceled Then
         IProcess_CanExecute = False
-        Logger.DebugMsg CLASS_NAME & " キャンセルが押された為処理を中断します。"
+        Logger.DebugMsg "キャンセルが押された為処理を中断します。", CLASS_NAME
     End If
     
 End Function

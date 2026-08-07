@@ -6,21 +6,6 @@ Attribute VB_Name = "ConfigManager"
 Option Explicit
 
 
-
-' INI読み取り用API宣言 (必要に応じて使用)
-'------------------------------------------------------------------------
-'Private Declare PtrSafe Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" _
-'    (ByVal lpAppName As String, ByVal lpKeyName As String, ByVal lpDefault As String, _
-'    ByVal lpReturnedString As String, ByVal nSize As Long, ByVal lpFileName As String) As Long
-'
-'Public Function ReadIniValue(ByVal section As String, ByVal key As String, ByVal defaultVal As String, ByVal iniPath As String) As String
-'    Dim buffer As String * 255
-'    Dim ret As Long
-'    ret = GetPrivateProfileString(section, key, defaultVal, buffer, Len(buffer), iniPath)
-'    ReadIniValue = Trim(Left(buffer, ret))
-'End Function
-
-
 ' XML読み取り用関数
 '------------------------------------------------------------------------
 Public Function ReadXmlValue(ByVal xmlPath As String, ByVal xpath As String) As String
@@ -43,7 +28,7 @@ End Function
 
 ' XML書き込み用関数
 '------------------------------------------------------------------------
-Public Function WriteXmlValue(ByVal xmlPath As String, ByVal xpath As String, ByVal value As String) As Boolean
+Public Function WriteXmlValue(ByVal xmlPath As String, ByVal xpath As String, ByVal Value As String) As Boolean
     Dim xmlDoc As Object
     Set xmlDoc = CreateObject("MSXML2.DOMDocument")
     xmlDoc.Load xmlPath
@@ -54,7 +39,7 @@ Public Function WriteXmlValue(ByVal xmlPath As String, ByVal xpath As String, By
     Dim node As Object
     Set node = xmlDoc.selectSingleNode(xpath)
     If Not node Is Nothing Then
-        node.text = value
+        node.text = Value
         xmlDoc.Save xmlPath
         WriteXmlValue = True
     Else

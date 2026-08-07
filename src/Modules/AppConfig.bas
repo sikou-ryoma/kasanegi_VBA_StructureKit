@@ -12,12 +12,12 @@ Option Explicit
 Public VERSION As String
 Public MACRO_NAME As String
 Public KANRI_PASS As String
-Public UTIL_GUID As String
+'Public UTIL_GUID As String
 
 
-' クラス
+' 汎用クラス
 '------------------------------------------------------------------------
-Public FO As FileOjt
+Public fs As FileSystem
 Public bm As BookManager
 Public sc As SheetCollection
 Public du As DateUtility
@@ -31,8 +31,8 @@ Public context As ProcessContext
 Public Sub InitializeProject(ByVal wbPath As String)
     Dim rootPath As String
 
-    Set FO = New FileOjt
-    rootPath = FO.UpPath(wbPath)
+    Set fs = New FileSystem
+    rootPath = fs.UpPath(wbPath)
 
     '---プロジェクト情報の読み込み
     AppConfig.InitializeAppConfig rootPath
@@ -56,7 +56,6 @@ Public Sub InitializeAppConfig(ByVal folderPath As String)
     VERSION = "v" & config("Version")
     MACRO_NAME = config("MacroName")
     KANRI_PASS = config("KanriPass")
-    UTIL_GUID = config("GUID")
+    'UTIL_GUID = config("GUID")
 End Sub
-
 

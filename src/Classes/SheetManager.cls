@@ -15,8 +15,8 @@ Attribute VB_Exposed = False
 '------------------------------------------------------------------------
 Option Explicit
 
+Private Const CLASS_NAME As String = "SheetManager"
 
-Private Const CLASS_NAME As String = "[SheetManager]"
 
 Private pSheet As Worksheet
 Private pBook As Workbook
@@ -218,7 +218,7 @@ Public Sub PrintStatus()
         Debug.Print "■ Matrix: 配列サイズ - " & _
                     LBound(pMatrix, 1) & " to " & UBound(pMatrix, 1) & " 行, " & _
                     LBound(pMatrix, 2) & " to " & UBound(pMatrix, 2) & " 列"
-        If Err.Number <> 0 Then Debug.Print "■ Matrix: 配列 (多次元でないか、範囲不明)"
+        If Err.number <> 0 Then Debug.Print "■ Matrix: 配列 (多次元でないか、範囲不明)"
         On Error GoTo 0
     Else
         Debug.Print "■ Matrix: 単一値 - " & pMatrix

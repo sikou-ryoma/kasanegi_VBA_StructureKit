@@ -2,34 +2,39 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "FileOjt"
+Attribute VB_Name = "FileSystem"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 
 '------------------------------------------------------------------------
-' ---FileOjt---
+' ---FileSystem---
 ' ファイル選択や保存関する操作を簡潔に行うためのクラスモジュールです。
 '------------------------------------------------------------------------
 Option Explicit
 
 
-Private Const CLASS_NAME As String = "[FileOjt]"
+Private Const CLASS_NAME As String = "FileSystem"
 
 Private pFileNm As Variant '---select file path
 Private pMultipleFiles As Variant '---select multiple files path
 Private pFolderPath As Variant '---select folder path
 
 
-'---取得したファイルパスの設定・取得
-Public Property Let FileNm(ByVal fn As Variant)
+'---取得したファイルパスの設定・取得・解放
+Public Property Let fileName(ByVal fn As Variant)
     pFileNm = fn
 End Property
 
-Public Property Get FileNm() As Variant
-    FileNm = pFileNm
+Public Property Get fileName() As Variant
+    fileName = pFileNm
 End Property
+
+Public Sub fileName_Clear()
+    pFileNm = Empty
+End Sub
+
 
 
 '---取得した複数のファイルパスの設定・取得・解放
@@ -46,6 +51,7 @@ Public Sub MultipleFiles_Clear()
 End Sub
 
 
+
 '---取得したフォルダパスの設定・取得
 Public Property Let folderPath(ByVal fp As Variant)
     pFolderPath = fp
@@ -55,15 +61,19 @@ Public Property Get folderPath() As Variant
     folderPath = pFolderPath
 End Property
 
+Public Sub folderPath_Clear()
+    pFolderPath = Empty
+End Sub
+
 
 '---この関数は選択したファイルのフルパスを返してそのファイルを開き、キャンセル時はFalseを返す
 '---キャンセル時に付いては呼び出し元で分岐を管理する必要がある
-Public Function OpFile() As Variant
+Public Function OpenFile() As Variant
     
     Dim fileName As Variant
-    MsgBox "ブックを選択してください。", vbInformation, "OpenFile"
+    'MsgBox "ブックを選択してください。", vbInformation, "OpenFile"
     fileName = Application.GetOpenFilename(FileFilter:="Excelファイル,*.xlsx,Excel2003以前,*.xls,Excelマクロブック,*.xlsm")
-    OpFile = fileName
+    OpenFile = fileName
     If fileName = False Then
         MsgBox "キャンセルが押されたため処理を中断します。", vbExclamation, "OpenFile"
         Exit Function
@@ -74,7 +84,7 @@ Public Function OpFile() As Variant
 End Function
 
 
-Public Function OpMultipleFiles() As Variant
+Public Function OpenMultipleFiles() As Variant
 
 '---OpFileの複数選択版
 '---配列を返すので呼び出し元で管理する必要がある
@@ -83,7 +93,7 @@ Public Function OpMultipleFiles() As Variant
     MsgBox "ブックを選択してください。", vbInformation, "OpenMultipleFiles"
     fileNames = Application.GetOpenFilename( _
         FileFilter:="Excelファイル,*.xlsx,Excel2003以前,*.xls,Excelマクロブック,*.xlsm", MultiSelect:=True)
-    OpMultipleFiles = fileNames
+    OpenMultipleFiles = fileNames
     If VarType(fileNames) = vbBoolean Then
         MsgBox "キャンセルが押されたため処理を中断します。", vbExclamation, "OpenMultipleFiles"
         Exit Function
@@ -96,7 +106,7 @@ Public Function OpMultipleFiles() As Variant
 End Function
 
 
-Public Function SvFile(ByVal rcvFn As String) As Variant
+Public Function SaveFile(ByVal rcvFn As String) As Variant
 
     Dim fileName As Variant
     Dim FF As Long
@@ -123,19 +133,19 @@ Public Function SvFile(ByVal rcvFn As String) As Variant
 
     If fileName = False Then
         MsgBox "キャンセルが押されました。", vbExclamation, "SaveFile"
-        SvFile = False
+        SaveFile = False
         Exit Function
     End If
 
     '---現在のブックを保存(必要に応じてThisWorkbookかActiveWorkbookを使い分けてください)
     ActiveWorkbook.SaveAs fileName
-    SvFile = fileName
+    SaveFile = fileName
     Exit Function
 
 ErrHandler:
-    SvFile = False
+    SaveFile = False
     MsgBox "保存に失敗しました。ファイル形式やファイル名を確認してください。" & vbCrLf & _
-           "エラーコード：" & Err.Number & vbCrLf & "エラー内容：" & Err.Description, vbExclamation, "SaveFile"
+           "エラーコード：" & Err.number & vbCrLf & "エラー内容：" & Err.Description, vbExclamation, "SaveFile"
     Err.Clear
 
 End Function
@@ -171,7 +181,7 @@ End Function
 
 
 '---1つ上のフォルダのパスを取得
-Public Function ParentPath(ByVal fullPath As String) As String
+Public Function parentPath(ByVal fullPath As String) As String
 
     fullPath = NormalizePath(fullPath)
     
@@ -179,9 +189,9 @@ Public Function ParentPath(ByVal fullPath As String) As String
     lastSep = InStrRev(fullPath, "\")
     
     If lastSep > 0 Then
-        ParentPath = Left(fullPath, lastSep - 1)
+        parentPath = Left(fullPath, lastSep - 1)
     Else
-        ParentPath = fullPath ' パス区切りがない（例外）
+        parentPath = fullPath ' パス区切りがない（例外）
     End If
     
 End Function
@@ -195,9 +205,59 @@ Public Function UpPath(ByVal fullPath As String, Optional ByVal levelUp As Long 
     fullPath = NormalizePath(fullPath)
     
     For i = 1 To levelUp
-        fullPath = ParentPath(fullPath)
+        fullPath = parentPath(fullPath)
     Next i
     
     UpPath = fullPath
 End Function
+
+
+Public Function FolderExists(ByVal folderPath As String) As Boolean
+    On Error Resume Next
+    FolderExists = (Dir(folderPath, vbDirectory) <> "")
+    On Error GoTo 0
+End Function
+
+Public Function FileExists(ByVal filePath As String) As Boolean
+    On Error Resume Next
+    FileExists = False
+    FileExists = (Dir(filePath) <> "")
+    On Error GoTo 0
+End Function
+
+
+Public Sub OpenExplorer(Optional ByVal targetPath As String = "")
+    
+    Shell "explorer.exe """ & targetPath & """", vbNormalFocus
+End Sub
+
+
+Function FindFolder(ByVal StartPath As String, ByVal TargetName As String) As String
+
+    Dim fso As Object
+    Dim folder As Object
+    Dim subFolder As Object
+    Dim result As String
+
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set folder = fso.GetFolder(StartPath)
+
+    For Each subFolder In folder.SubFolders
+
+        If StrComp(subFolder.Name, TargetName, vbTextCompare) = 0 Then
+            FindFolder = subFolder.path
+            Exit Function
+        End If
+
+        result = FindFolder(subFolder.path, TargetName)
+
+        If result <> "" Then
+            FindFolder = result
+            Exit Function
+        End If
+
+    Next
+
+End Function
+
 
