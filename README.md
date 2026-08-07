@@ -1,11 +1,13 @@
 # kasanegi - VBA Structure Kit
 
+> Version : beta
+
+---
+
 **kasanegi** は、Excelを基盤としたVBAプロジェクトを「重ねるように」構築・拡張・整理するための構造キットです。  
 モジュールを積み重ねる設計思想をベースに、柔軟かつ拡張性の高いフレームワークとして機能します。
 
-**kasanegi** is a modular VBA framework designed to layer, extend, and organize Excel-based solutions with clarity and structure.  
-Inspired by the Japanese concept of “重ね着” (kasanegi – layering), this kit provides a flexible foundation for scalable, customizable VBA projects.
-
+---
 
 ## 特長
 
@@ -15,24 +17,33 @@ Inspired by the Japanese concept of “重ね着” (kasanegi – layering), thi
 - **フレームワークとしての拡張性**: VBA開発をフレームワーク化し、ブック・シート・プロセスなどのオブジェクトを一元管理。柔軟なカスタマイズと開発を可能に。
 - **現場活用実績**: 実際の業務現場で活用されており、安定した運用が確認されています。
 
+---
+
 ## インストール方法
 
 - ~~releaseよりzipファイルをダウンロードして任意のフォルダに展開してください。~~
 - ~~[最新リリースはこちら] ()~~
 
+---
+
 ## 使い方
 
 付属のドキュメントや各モジュールのサンプルコードやコメントを参照してください。
+
+---
 
 ## 改善例
 
 このフレームワークを活用することで、以下のような改善が可能です：
 
-- **設定管理の外部化**: 従来のINIファイルやハードコードされた定数をXMLファイルに移行することで、コード変更なしで設定を調整可能。例: ロガー設定を `config.xml` に集約し、ログレベルやフォルダを柔軟に変更。
+- **設定管理の外部化**: VBAで度々起きるハードコードされた定数をXMLファイルに移行することで、コード変更なしで設定を調整可能。  
+  ロガー設定も `config.xml` に集約し、ログレベルやフォルダを柔軟に変更。
 - **モジュールの分離と再利用**: ConfigManager モジュールを導入することで、設定読み込みを汎用化。LoggerManager や AppConfig を独立させ、責任分担を明確にし、保守性を向上。
 - **拡張性の向上**: 新しい設定項目（例: データベース接続情報）をXMLに追加するだけで、フレームワークを拡張可能。現場での運用で実証済み。
 
-これらの改善により、開発効率が向上し、現場での安定した運用を実現しています。
+これらの改善により、開発効率が向上し、現場での安定した運用を実現します。
+
+---
 
 ## フォルダ構成 (Release版)
 
@@ -40,11 +51,11 @@ Inspired by the Japanese concept of “重ね着” (kasanegi – layering), thi
 ProjectTemplate/                    '--- プロジェクトルートフォルダ
 ├── archive/                        '--- 旧バージョン管理用フォルダ
 ├── build/                          '--- リリース版管理フォルダ
-├── config/                         '--- 設定ファイル用フォルダ
-│   └── config.xml                  '--- ロガークラス用設定ファイル
+├── config/
+│   └── config.xml                  '--- 設定ファイル
 ├── log/                            '--- ログファイル用フォルダ
 ├── output/
-│   ├── reports/                    '--- 出力ファイルの一時保存用フォルダ                    
+│   ├── reports/                    '--- 出力ファイルの保存用フォルダ                    
 │   └── temp/                       '--- 処理用テンプレートファイルの一時保存用フォルダ
 ├── src/
 │   ├── Classes/                    '--- クラスモジュールのソースコードファイル用フォルダ
@@ -58,9 +69,13 @@ ProjectTemplate/                    '--- プロジェクトルートフォルダ
 └── README.md
 ```
 
+---
+
 ## ライセンス
 
 MITライセンスのもとで公開しています。詳細は `LICENSE` ファイルをご確認ください。
+
+---
 
 ## 貢献
 
