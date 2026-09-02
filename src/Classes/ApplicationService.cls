@@ -25,18 +25,20 @@ Public Sub ExecuteApp(ByVal proc As IProcess)
     
     'WaitMsgShow
     ShowProgress
-    Progress.Value 20
+    progFrm.Value 20
         
     proc.MainProcess
-    Progress.Value 70
+    progFrm.Value 70
     
-    proc.PostProcess
-    Progress.Value 99
+    progFrm.Value 99
     
     Application.ScreenUpdating = True
         
-    Progress.SelfClose
+    progFrm.SelfClose
     'Unload WaitMsg
+    
+    proc.PostProcess
+    
     MsgBox "処理が完了しました。", vbInformation, MACRO_NAME
     Logger.Info "正常終了", CLASS_NAME
     
@@ -45,7 +47,7 @@ Public Sub ExecuteApp(ByVal proc As IProcess)
     
 ErrHandler:
 
-    Progress.SelfClose
+    progFrm.SelfClose
     'Unload WaitMsg
     Logger.ErrorMsg "エラー発生 : " & Err.Description, CLASS_NAME
     Logger.WarnMsg "処理を中断しました", CLASS_NAME

@@ -109,6 +109,8 @@ Private Sub WriteLog(ByVal level As String, ByVal message As String, ByVal modul
     
     logLine = timestamp & " [" & UCase(level) & "] " & modName & message
     
+    If IsFormOpen("ProgressForm") Then progFrm.Cpt "èàóù : " & message
+    
     fileNum = FreeFile
     Open logPath For Append As #fileNum
         Print #fileNum, logLine

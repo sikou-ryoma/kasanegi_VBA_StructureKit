@@ -1,20 +1,21 @@
 Attribute VB_Name = "ProgressManager"
 Option Explicit
 
+Public progFrm As ProgressForm
 
 Public Sub ShowProgress(Optional ByVal seconds As Long = 2)
     
-    Set Progress = New Progress
+    Set progFrm = New ProgressForm
     Dim waitUntil As Date
     waitUntil = Now + TimeSerial(0, 0, seconds)
 
-    With Progress
+    With progFrm
         .StartUpPosition = 0
         .Left = 150
         .Top = 120
         .MaxValue = 100
         .BarColor = RGB(0, 0, 128)
-        .Interactive = False 'äÑçûÇ›ïsâ¬
+        .Interactive = True
         .ShowModeless "äJénÇµÇ‹Ç∑"
     End With
     
